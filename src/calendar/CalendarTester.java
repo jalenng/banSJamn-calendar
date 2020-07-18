@@ -5,6 +5,10 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -20,7 +24,7 @@ public class CalendarTester {
 		frame.setTitle("Calendar");
 		frame.setMinimumSize(new Dimension(900, 500));
 		
-		// Split Jframe into two halves
+		// Split JFrame into two halves
 		final JPanel leftControls = new JPanel();
 		leftControls.setLayout(new BorderLayout());
 		final JPanel rightControls = new JPanel();
@@ -61,6 +65,20 @@ public class CalendarTester {
 		JButton agendaButton = new JButton("Agenda");
 		JButton uploadFileButton = new JButton("Upload File");
 		
+		// AgendaView action listener
+		agendaButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				rightControls.removeAll();
+				rightControls.add(changeViewNav, BorderLayout.NORTH);
+				rightControls.add(new AgendaView(model), BorderLayout.CENTER);
+				frame.revalidate();
+				frame.repaint();
+			}
+			
+		});
+		
 		// Adding buttons to top-right panel
 		changeViewNav.add(dayButton);
 		changeViewNav.add(weekButton);
@@ -72,7 +90,7 @@ public class CalendarTester {
 		leftControls.add(currentViewNav, BorderLayout.NORTH);
 		rightControls.add(changeViewNav, BorderLayout.NORTH);
 		
-		// Use these to test your calendar views
+		// You can use these to test your calendar views
 //		leftControls.add(left calendar view, BorderLayout.CENTER);
 //		rightControls.add(right view, BorderLayout.CENTER);
 		
