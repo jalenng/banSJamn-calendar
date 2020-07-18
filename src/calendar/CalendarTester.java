@@ -7,11 +7,14 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class CalendarTester {
@@ -51,7 +54,7 @@ public class CalendarTester {
 		currentViewNav.add(todayRightButton, c);
 		c.gridx = 0;
 		c.gridy++;
-		c.gridwidth = 2;
+		c.gridwidth = 3;
 		currentViewNav.add(createButton, c);
 		
 		
@@ -65,7 +68,8 @@ public class CalendarTester {
 		JButton agendaButton = new JButton("Agenda");
 		JButton uploadFileButton = new JButton("Upload File");
 		
-		// AgendaView action listener
+		
+		// Agenda action listener
 		agendaButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -73,11 +77,25 @@ public class CalendarTester {
 				rightControls.removeAll();
 				rightControls.add(changeViewNav, BorderLayout.NORTH);
 				rightControls.add(new AgendaView(model), BorderLayout.CENTER);
-				frame.revalidate();
-				frame.repaint();
+				rightControls.revalidate();
+				rightControls.repaint();
 			}
 			
 		});
+		
+		// InputFile action listener
+		uploadFileButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				rightControls.removeAll();
+				rightControls.add(changeViewNav, BorderLayout.NORTH);
+				rightControls.add(new InputFileView(model), BorderLayout.CENTER);
+				rightControls.revalidate();
+				rightControls.repaint();
+				uploadFileButton.setEnabled(false);
+			}
+		});
+		
 		
 		// Adding buttons to top-right panel
 		changeViewNav.add(dayButton);
@@ -89,6 +107,7 @@ public class CalendarTester {
 		// Adding top-left panel to left half & top-right panel to right half
 		leftControls.add(currentViewNav, BorderLayout.NORTH);
 		rightControls.add(changeViewNav, BorderLayout.NORTH);
+		
 		
 		// You can use these to test your calendar views
 //		leftControls.add(left calendar view, BorderLayout.CENTER);

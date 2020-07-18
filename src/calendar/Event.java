@@ -15,7 +15,7 @@ public class Event implements Comparable<Event>{
 	
 	private static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("M/d/yyyy");
 	private static DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("H:mm");
-	private String dowOrder = "MTWRFAS";
+	private String dowOrder = "MTWHFAS";
 	
 	private String name;
 	private LocalDate date; 
@@ -29,7 +29,7 @@ public class Event implements Comparable<Event>{
 	/**
 	 * Instantiates a new recurring event
 	 * @param name	Name of event
-	 * @param days	String of character(s) in set {SMTWRFA} to indicate days of the week to recurse
+	 * @param days	String of character(s) in set {SMTWHFA} to indicate days of the week to recurse
 	 * @param startTime	Starting time of event
 	 * @param endTime	Ending time of event
 	 * @param startDate	Starting date of recursion
