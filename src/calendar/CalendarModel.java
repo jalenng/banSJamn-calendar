@@ -3,6 +3,8 @@ package calendar;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.TreeSet;
+
+import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 /**
@@ -86,6 +88,14 @@ public class CalendarModel {
 		selectedDate = selectedDate.plusMonths(i).withDayOfMonth(1);
 	}
 	
+	public void update()
+	{
+		for (ChangeListener l : listeners)
+		{
+			l.stateChanged(new ChangeEvent(this));
+		}
+	}
+	
 	/**
 	 * Adds event to calendar if it does not conflict with existing events
 	 * @param e	Event to add
@@ -98,6 +108,7 @@ public class CalendarModel {
 			}
 		}
 		events.add(e);
+		update();
 		return true;
 	}
 	
@@ -107,63 +118,7 @@ public class CalendarModel {
 	 */
 	public void addEventForce(Event e) {
 		events.add(e);
+		update();
 	}
 	
-	/**
-	 * Removes all events on a given date
-	 * @param date	Date of events for removal
-	 * @return	true if event(s) removed, false otherwise
-	 */
-	public boolean removeEvent(LocalDate date) {
-		TreeSet<Event> temp = new TreeSet<>();
-		for (Event e : events) {
-			if (e.getDate().equals(date))
-				temp.add(e);
-		}
-		if (temp.size() == 0)
-			return false;
-		else {
-			events.removeAll(temp);
-			return true;
-		}
-	}
-	
-	/**
-	 * Removes all events of a given name and occuring on a given date
-	 * @param date	Date of events for removal
-	 * @param name	Name of events for removal
-	 * @return	true if event(s) removed, false otherwise
-	 */
-	public boolean removeEvent(LocalDate date, String name) {
-		TreeSet<Event> temp = new TreeSet<>();
-		for (Event e : events) {
-			if (e.getDate().equals(date) && e.getName().equals(name))
-				temp.add(e);
-		}
-		if (temp.size() == 0)
-			return false;
-		else {
-			events.removeAll(temp);
-			return true;
-		}
-	} 
-	
-	/**
-	 * Removes all recurring events of a given name
-	 * @param name Name of recurring event for removal
-	 * @return	true if event(s) removed, false otherwise
-	 */
-	public boolean removeRecurringEvent(String name) {
-		TreeSet<Event> temp = new TreeSet<>();
-		for (Event e : events) {
-			if (e.isRecursive() && e.getName().equals(name))
-				temp.add(e);
-		}
-		if (temp.size() == 0)
-			return false;
-		else {
-			events.removeAll(temp);
-			return true;
-		}
-	}
 }
