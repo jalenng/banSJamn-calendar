@@ -88,7 +88,10 @@ public class CalendarModel {
 		selectedDate = selectedDate.plusMonths(i).withDayOfMonth(1);
 	}
 	
-	public void update()
+	/**
+	 * Calls stateChanged to all the change listeners attached to the model
+	 */
+	private void update()
 	{
 		for (ChangeListener l : listeners)
 		{
