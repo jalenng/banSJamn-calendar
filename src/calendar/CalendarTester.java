@@ -22,6 +22,7 @@ public class CalendarTester {
 	public static void main(String[] args) {
 		
 		final CalendarModel model = new CalendarModel();
+		AgendaView agendaView = new AgendaView(model);
 		
 		final JFrame frame = new JFrame();
 		frame.setTitle("Calendar");
@@ -85,7 +86,7 @@ public class CalendarTester {
 			public void actionPerformed(ActionEvent e) {
 				rightControls.removeAll();
 				rightControls.add(changeViewNav, BorderLayout.NORTH);
-				rightControls.add(new AgendaView(model), BorderLayout.CENTER);
+				rightControls.add(agendaView, BorderLayout.CENTER);
 				rightControls.revalidate();
 				rightControls.repaint();
 			}

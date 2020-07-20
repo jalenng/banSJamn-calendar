@@ -166,7 +166,7 @@ public class AgendaView extends JPanel implements CalendarView {
 		this.revalidate();
 		this.repaint();
 	}
-	
+		
 	
 	public void next() {}
 	
