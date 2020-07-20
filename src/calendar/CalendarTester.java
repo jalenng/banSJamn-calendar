@@ -43,6 +43,15 @@ public class CalendarTester {
 		JButton todayRightButton = new JButton(">");
 		JButton createButton = new JButton("Create Event");
 		
+		// Today action listener
+		todayButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				model.setSelectedDate(LocalDate.now());
+			}
+		});
+				
+		// To-do: Create Event action listener
+		
 		// Adding buttons to top-left panel
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;

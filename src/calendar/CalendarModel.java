@@ -58,6 +58,7 @@ public class CalendarModel {
 	 */
 	public void setSelectedDate(LocalDate date) {
 		selectedDate = date;
+		update();
 	}
 	
 	/**
@@ -67,6 +68,7 @@ public class CalendarModel {
 	 */
 	public void advanceSelectedDateByDays(int i) {
 		selectedDate = selectedDate.plusDays(i);
+		update();
 	}
 	
 	/**
@@ -76,6 +78,7 @@ public class CalendarModel {
 	 */
 	public void advanceSelectedDateByWeek(int i) {
 		selectedDate = selectedDate.plusWeeks(i);
+		update();
 	}
 	
 	/**
@@ -86,6 +89,7 @@ public class CalendarModel {
 	 */
 	public void advanceSelectedDateByMonth(int i) {
 		selectedDate = selectedDate.plusMonths(i).withDayOfMonth(1);
+		update();
 	}
 	
 	/**
