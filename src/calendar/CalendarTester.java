@@ -42,21 +42,12 @@ public class CalendarTester {
 		JButton todayButton = new JButton("Today");
 		JButton todayLeftButton = new JButton("<");
 		JButton todayRightButton = new JButton(">");
-		JButton createButton = new JButton("Create Event");
-		
-		// Today action listener
-		todayButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				model.setSelectedDate(LocalDate.now());
-			}
-		});
-				
-		// To-do: Create Event action listener
+		JButton createButton = new JButton("Create Event");				
 		
 		// Adding buttons to top-left panel
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
-		c.gridy = 0;
+		c.gridy = 0;	
 		currentViewNav.add(todayButton, c);
 		c.gridx++;
 		currentViewNav.add(todayLeftButton, c);
@@ -106,6 +97,23 @@ public class CalendarTester {
 			}
 		});
 		
+		// Today action listener
+		todayButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				model.setSelectedDate(LocalDate.now());
+			}
+		});
+				
+		// Create Event action listener
+		createButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					rightControls.removeAll();
+					rightControls.add(changeViewNav, BorderLayout.NORTH);
+					rightControls.add(new CreateView(model), BorderLayout.CENTER);
+					rightControls.revalidate();
+					rightControls.repaint();
+				}
+			});
 		
 		// Adding buttons to top-right panel
 		changeViewNav.add(dayButton);
