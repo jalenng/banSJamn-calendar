@@ -93,6 +93,14 @@ public class CalendarModel {
 	}
 	
 	/**
+	 * Attaches a Change Listener to this model
+	 * @param listener	listener to attach
+	 */
+	public void attach(ChangeListener listener) {
+		listeners.add(listener);
+	}
+	
+	/**
 	 * Calls stateChanged to all the change listeners attached to the model
 	 */
 	private void update()

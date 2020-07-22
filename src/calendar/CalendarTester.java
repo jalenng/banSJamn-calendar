@@ -22,7 +22,17 @@ public class CalendarTester {
 	public static void main(String[] args) {
 		
 		final CalendarModel model = new CalendarModel();
+		
+		CreateView createView = new CreateView(model);
+		//DayView dayView = new MonthView(model); //uncomment when DayView is implemented
+		//WeekView weekView = new MonthView(model); //uncomment when WeekView is implemented
+		//MonthView monthView = new MonthView(model); //uncomment when MonthView is implemented
 		AgendaView agendaView = new AgendaView(model);
+		
+		// Attach views/change listeners to model
+		//model.attach(dayView); //uncomment when DayView is implemented
+		//model.attach(weekView); //uncomment when WeekView is implemented
+		//model.attach(monthView); //uncomment when MonthView is implemented
 		
 		final JFrame frame = new JFrame();
 		frame.setTitle("Calendar");
@@ -109,7 +119,7 @@ public class CalendarTester {
 				public void actionPerformed(ActionEvent e) {
 					rightControls.removeAll();
 					rightControls.add(changeViewNav, BorderLayout.NORTH);
-					rightControls.add(new CreateView(model), BorderLayout.CENTER);
+					rightControls.add(createView, BorderLayout.CENTER);
 					rightControls.revalidate();
 					rightControls.repaint();
 				}
@@ -121,15 +131,15 @@ public class CalendarTester {
 		changeViewNav.add(monthButton);
 		changeViewNav.add(agendaButton);
 		changeViewNav.add(uploadFileButton);
-		
+				
 		// Adding top-left panel to left half & top-right panel to right half
 		leftControls.add(currentViewNav, BorderLayout.NORTH);
 		rightControls.add(changeViewNav, BorderLayout.NORTH);
 		
 		
 		// You can use these to test your calendar views
-//		leftControls.add(left calendar view, BorderLayout.CENTER);
-//		rightControls.add(right view, BorderLayout.CENTER);
+//		leftControls.add(new SelectedMonthView(0), BorderLayout.CENTER);
+//		rightControls.add(new MonthView(0), BorderLayout.CENTER);
 		
 		
 		// Adding left and right halves to the frame
