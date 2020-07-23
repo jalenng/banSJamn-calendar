@@ -68,12 +68,11 @@ public class CalendarTester {
 		c.gridwidth = 3;
 		currentViewNav.add(createButton, c);
 		
-		
 		// Right half has a JPanel for the top buttons (top-right panel)
 		JPanel changeViewNav = new JPanel();
 		changeViewNav.setLayout(new GridLayout(1,5));
 		
-		JButton dayButton = new JButton("Day");
+		final JButton dayButton = new JButton("Day");
 		JButton weekButton = new JButton("Week");
 		JButton monthButton = new JButton("Month");
 		JButton agendaButton = new JButton("Agenda");
@@ -136,6 +135,29 @@ public class CalendarTester {
 		leftControls.add(currentViewNav, BorderLayout.NORTH);
 		rightControls.add(changeViewNav, BorderLayout.NORTH);
 		
+		// DayView Action Listener
+		dayButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				rightControls.removeAll();
+				rightControls.add(changeViewNav, BorderLayout.NORTH);
+				rightControls.add(new DayView(model), BorderLayout.WEST);
+				rightControls.revalidate();
+				rightControls.repaint();	
+			}		
+		});
+		
+		// WeekView Action Listener
+		weekButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				rightControls.removeAll();
+				rightControls.add(changeViewNav, BorderLayout.NORTH);
+				rightControls.add(new WeekView(model), BorderLayout.WEST);
+				rightControls.revalidate();
+				rightControls.repaint();	
+			}		
+		});
 		
 		// You can use these to test your calendar views
 //		leftControls.add(new SelectedMonthView(0), BorderLayout.CENTER);
@@ -149,7 +171,7 @@ public class CalendarTester {
 		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-		
+		System.out.println(todayLeftButton.getSize());
 	}
 	
 }
