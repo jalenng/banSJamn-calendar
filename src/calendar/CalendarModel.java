@@ -3,6 +3,8 @@ package calendar;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.TreeSet;
+
+import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 /**
@@ -12,7 +14,7 @@ public class CalendarModel {
 
 	private TreeSet<Event> events;
 	private ArrayList<ChangeListener> listeners; 
-	private LocalDate selectedDate;
+	private static LocalDate selectedDate;
 	
 	public CalendarModel() {
 		events = new TreeSet<>();
@@ -46,7 +48,7 @@ public class CalendarModel {
 	 * Returns the selected LocalDate
 	 * @return	the selected LocalDate
 	 */
-	public LocalDate getSelectedDate() {
+	public static LocalDate getSelectedDate() {
 		return selectedDate;
 	}
 	
@@ -56,6 +58,7 @@ public class CalendarModel {
 	 */
 	public void setSelectedDate(LocalDate date) {
 		selectedDate = date;
+		update();
 	}
 	
 	/**
@@ -65,6 +68,7 @@ public class CalendarModel {
 	 */
 	public void advanceSelectedDateByDays(int i) {
 		selectedDate = selectedDate.plusDays(i);
+		update();
 	}
 	
 	/**
@@ -74,6 +78,7 @@ public class CalendarModel {
 	 */
 	public void advanceSelectedDateByWeek(int i) {
 		selectedDate = selectedDate.plusWeeks(i);
+		update();
 	}
 	
 	/**
@@ -84,6 +89,26 @@ public class CalendarModel {
 	 */
 	public void advanceSelectedDateByMonth(int i) {
 		selectedDate = selectedDate.plusMonths(i).withDayOfMonth(1);
+		update();
+	}
+	
+	/**
+	 * Attaches a Change Listener to this model
+	 * @param listener	listener to attach
+	 */
+	public void attach(ChangeListener listener) {
+		listeners.add(listener);
+	}
+	
+	/**
+	 * Calls stateChanged to all the change listeners attached to the model
+	 */
+	private void update()
+	{
+		for (ChangeListener l : listeners)
+		{
+			l.stateChanged(new ChangeEvent(this));
+		}
 	}
 	
 	/**
@@ -98,6 +123,7 @@ public class CalendarModel {
 			}
 		}
 		events.add(e);
+		update();
 		return true;
 	}
 	
@@ -107,63 +133,7 @@ public class CalendarModel {
 	 */
 	public void addEventForce(Event e) {
 		events.add(e);
+		update();
 	}
 	
-	/**
-	 * Removes all events on a given date
-	 * @param date	Date of events for removal
-	 * @return	true if event(s) removed, false otherwise
-	 */
-	public boolean removeEvent(LocalDate date) {
-		TreeSet<Event> temp = new TreeSet<>();
-		for (Event e : events) {
-			if (e.getDate().equals(date))
-				temp.add(e);
-		}
-		if (temp.size() == 0)
-			return false;
-		else {
-			events.removeAll(temp);
-			return true;
-		}
-	}
-	
-	/**
-	 * Removes all events of a given name and occuring on a given date
-	 * @param date	Date of events for removal
-	 * @param name	Name of events for removal
-	 * @return	true if event(s) removed, false otherwise
-	 */
-	public boolean removeEvent(LocalDate date, String name) {
-		TreeSet<Event> temp = new TreeSet<>();
-		for (Event e : events) {
-			if (e.getDate().equals(date) && e.getName().equals(name))
-				temp.add(e);
-		}
-		if (temp.size() == 0)
-			return false;
-		else {
-			events.removeAll(temp);
-			return true;
-		}
-	} 
-	
-	/**
-	 * Removes all recurring events of a given name
-	 * @param name Name of recurring event for removal
-	 * @return	true if event(s) removed, false otherwise
-	 */
-	public boolean removeRecurringEvent(String name) {
-		TreeSet<Event> temp = new TreeSet<>();
-		for (Event e : events) {
-			if (e.isRecursive() && e.getName().equals(name))
-				temp.add(e);
-		}
-		if (temp.size() == 0)
-			return false;
-		else {
-			events.removeAll(temp);
-			return true;
-		}
-	}
 }

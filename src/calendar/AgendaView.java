@@ -97,22 +97,28 @@ public class AgendaView extends JPanel implements CalendarView {
 		c.gridx = 0;
 		c.gridy = 0;
 		c.insets = insets;
+		c.gridwidth = 2;
+		inputPanel.add(titleLabel, c);
+		c.gridx = 0;
+		c.gridy = 1;
+		c.gridwidth = 1;
 		inputPanel.add(startLabel, c);
 		c.gridx = 1;
 		inputPanel.add(startInput, c);
 		c.gridx = 0;
-		c.gridy = 1;
+		c.gridy = 2;
 		inputPanel.add(endLabel, c);
 		c.gridx = 1;
 		inputPanel.add(endInput, c);
 		c.gridx = 0;
-		c.gridy = 2;
+		c.gridy = 3;
 		c.gridwidth = 2;
 		inputPanel.add(errorLabel, c);
+		c.gridx = 0;
+		c.gridy = 4;
+		inputPanel.add(submitButton, c);
 		
-		this.add(titleLabel, BorderLayout.NORTH);
 		this.add(inputPanel, BorderLayout.CENTER);
-		this.add(submitButton, BorderLayout.SOUTH);
 		
 		
 	}
@@ -166,7 +172,7 @@ public class AgendaView extends JPanel implements CalendarView {
 		this.revalidate();
 		this.repaint();
 	}
-	
+		
 	
 	public void next() {}
 	
