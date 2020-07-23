@@ -29,7 +29,6 @@ public class AgendaView extends JPanel implements CalendarView {
 	public AgendaView(CalendarModel m) {
 		
 		this.setLayout(new BorderLayout());
-		
 		this.model = m;
 		events = m.getEvents();
 		

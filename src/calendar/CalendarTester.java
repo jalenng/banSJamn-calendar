@@ -24,14 +24,14 @@ public class CalendarTester {
 		final CalendarModel model = new CalendarModel();
 		
 		CreateView createView = new CreateView(model);
-		//DayView dayView = new MonthView(model); //uncomment when DayView is implemented
-		//WeekView weekView = new MonthView(model); //uncomment when WeekView is implemented
+		DayView dayView = new DayView(model); 
+		WeekView weekView = new WeekView(model); 
 		//MonthView monthView = new MonthView(model); //uncomment when MonthView is implemented
 		AgendaView agendaView = new AgendaView(model);
 		
 		// Attach views/change listeners to model
-		//model.attach(dayView); //uncomment when DayView is implemented
-		//model.attach(weekView); //uncomment when WeekView is implemented
+		model.attach(dayView); 
+		model.attach(weekView); 
 		//model.attach(monthView); //uncomment when MonthView is implemented
 		
 		final JFrame frame = new JFrame();
@@ -141,7 +141,7 @@ public class CalendarTester {
 			public void actionPerformed(ActionEvent arg0) {
 				rightControls.removeAll();
 				rightControls.add(changeViewNav, BorderLayout.NORTH);
-				rightControls.add(new DayView(model), BorderLayout.WEST);
+				rightControls.add(dayView, BorderLayout.WEST);
 				rightControls.revalidate();
 				rightControls.repaint();	
 			}		
@@ -153,7 +153,7 @@ public class CalendarTester {
 			public void actionPerformed(ActionEvent arg0) {
 				rightControls.removeAll();
 				rightControls.add(changeViewNav, BorderLayout.NORTH);
-				rightControls.add(new WeekView(model), BorderLayout.WEST);
+				rightControls.add(weekView, BorderLayout.WEST);
 				rightControls.revalidate();
 				rightControls.repaint();	
 			}		
