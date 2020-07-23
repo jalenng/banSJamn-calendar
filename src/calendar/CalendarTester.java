@@ -228,6 +228,9 @@ public class CalendarTester {
 		frame.add(leftControls, BorderLayout.WEST);
 		frame.add(rightControls, BorderLayout.EAST);
 		
+		SelectedMonthView sv = new SelectedMonthView(0);
+		leftControls.add(sv);
+		
 		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
