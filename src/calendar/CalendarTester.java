@@ -1,12 +1,15 @@
 package calendar;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ContainerEvent;
+import java.awt.event.ContainerListener;
 import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -23,16 +26,16 @@ public class CalendarTester {
 		
 		final CalendarModel model = new CalendarModel();
 		
-		CreateView createView = new CreateView(model);
-		DayView dayView = new DayView(model); 
-		WeekView weekView = new WeekView(model); 
-		//MonthView monthView = new MonthView(model); //uncomment when MonthView is implemented
-		AgendaView agendaView = new AgendaView(model);
+		final CreateView createView = new CreateView(model);
+		final DayView dayView = new DayView(model); 
+		final WeekView weekView = new WeekView(model); 
+		final MonthView monthView = new MonthView(0); //month view should take in model as param
+		final AgendaView agendaView = new AgendaView(model);
 		
 		// Attach views/change listeners to model
 		model.attach(dayView); 
 		model.attach(weekView); 
-		//model.attach(monthView); //uncomment when MonthView is implemented
+		//model.attach(monthView); //uncomment when month view implements ChangeListener
 		
 		final JFrame frame = new JFrame();
 		frame.setTitle("Calendar");
@@ -49,10 +52,14 @@ public class CalendarTester {
 		JPanel currentViewNav = new JPanel();
 		currentViewNav.setLayout(new GridBagLayout());
 		
-		JButton todayButton = new JButton("Today");
-		JButton todayLeftButton = new JButton("<");
-		JButton todayRightButton = new JButton(">");
-		JButton createButton = new JButton("Create Event");				
+		final JButton todayButton = new JButton("Today");
+		final JButton todayLeftButton = new JButton("<");
+		final JButton todayRightButton = new JButton(">");
+		final JButton createButton = new JButton("Create Event");		
+		
+		// Disable todayLeftButton and todayRightButton by default
+		todayLeftButton.setEnabled(false);
+		todayRightButton.setEnabled(false);
 		
 		// Adding buttons to top-left panel
 		GridBagConstraints c = new GridBagConstraints();
@@ -73,10 +80,10 @@ public class CalendarTester {
 		changeViewNav.setLayout(new GridLayout(1,5));
 		
 		final JButton dayButton = new JButton("Day");
-		JButton weekButton = new JButton("Week");
-		JButton monthButton = new JButton("Month");
-		JButton agendaButton = new JButton("Agenda");
-		JButton uploadFileButton = new JButton("Upload File");
+		final JButton weekButton = new JButton("Week");
+		final JButton monthButton = new JButton("Month");
+		final JButton agendaButton = new JButton("Agenda");
+		final JButton importFileButton = new JButton("Import File");
 		
 		
 		// Agenda action listener
@@ -94,7 +101,7 @@ public class CalendarTester {
 		});
 		
 		// InputFile action listener
-		uploadFileButton.addActionListener(new ActionListener() {
+		importFileButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				rightControls.removeAll();
@@ -102,7 +109,7 @@ public class CalendarTester {
 				rightControls.add(new InputFileView(model), BorderLayout.CENTER);
 				rightControls.revalidate();
 				rightControls.repaint();
-				uploadFileButton.setEnabled(false);
+				importFileButton.setEnabled(false);
 			}
 		});
 		
@@ -113,6 +120,50 @@ public class CalendarTester {
 			}
 		});
 				
+		// Left/Previous (<) action listener
+		todayLeftButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Component rightView = rightControls.getComponent(1);
+				if (rightView instanceof CalendarView) {
+					((CalendarView) rightView).previous();
+				}
+			}
+		});
+			
+		// Right/Next (>) action listener
+		todayRightButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Component rightView = rightControls.getComponent(1);
+				if (rightView instanceof CalendarView) {
+					((CalendarView) rightView).next();
+				}
+			}
+		});
+		
+		// Checks whether a CalendarView is in the right side to determine
+		// whether to disable the left/right buttons
+		rightControls.addContainerListener(new ContainerListener() {
+			public void componentAdded(ContainerEvent arg0) {
+				updateLeftRightButtonsAbility();			
+			}
+			public void componentRemoved(ContainerEvent arg0) {
+				updateLeftRightButtonsAbility();
+			}
+			public void updateLeftRightButtonsAbility() {
+				if (rightControls.getComponentCount() > 1 ) {
+					Component rightView = rightControls.getComponent(1);
+					if (rightView instanceof CalendarView) {
+						todayLeftButton.setEnabled(true);
+						todayRightButton.setEnabled(true);
+					}
+					else {
+						todayLeftButton.setEnabled(false);
+						todayRightButton.setEnabled(false);
+					}
+				}
+			}
+		});
+		
 		// Create Event action listener
 		createButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -129,7 +180,7 @@ public class CalendarTester {
 		changeViewNav.add(weekButton);
 		changeViewNav.add(monthButton);
 		changeViewNav.add(agendaButton);
-		changeViewNav.add(uploadFileButton);
+		changeViewNav.add(importFileButton);
 				
 		// Adding top-left panel to left half & top-right panel to right half
 		leftControls.add(currentViewNav, BorderLayout.NORTH);
@@ -159,10 +210,19 @@ public class CalendarTester {
 			}		
 		});
 		
-		// You can use these to test your calendar views
-//		leftControls.add(new SelectedMonthView(0), BorderLayout.CENTER);
-//		rightControls.add(new MonthView(0), BorderLayout.CENTER);
+		leftControls.add(new SelectedMonthView(0), BorderLayout.CENTER);
 		
+		// MonthView Action Listener
+		monthButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				rightControls.removeAll();
+				rightControls.add(changeViewNav, BorderLayout.NORTH);
+				rightControls.add(monthView, BorderLayout.CENTER);
+				rightControls.revalidate();
+				rightControls.repaint();	
+			}		
+		});
 		
 		// Adding left and right halves to the frame
 		frame.add(leftControls, BorderLayout.WEST);
@@ -171,7 +231,7 @@ public class CalendarTester {
 		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-		System.out.println(todayLeftButton.getSize());
+
 	}
 	
 }
