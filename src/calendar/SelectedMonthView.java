@@ -4,12 +4,17 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
-public class SelectedMonthView extends JPanel {
+public class SelectedMonthView extends JPanel implements CalendarView{
 
 	// Private instance variable used to navigate between months
-	private int n = 0;
-
+	private int n;
+	private String month;
+	private int year;
+	private int day;
+	private LocalDate cal;
 	/*
 	 * Constructor which updates the value of n and calls the display method to
 	 * display the calendar.
@@ -19,6 +24,9 @@ public class SelectedMonthView extends JPanel {
 	 */
 	public SelectedMonthView(int n) {
 		this.n = n;
+		this.setBackground(Color.white);
+		this.setOpaque(true);
+		this.setSize(100, 100);
 		display(n);
 	}
 
@@ -49,7 +57,7 @@ public class SelectedMonthView extends JPanel {
 	public void display(int n) {
 
 		// Get today's date and month
-		LocalDate cal = LocalDate.now();
+		cal = LocalDate.now();
 		int today = cal.getDayOfMonth();
 		String thisMonth = cal.getMonth().name();
 		int thisYear = cal.getYear();
@@ -102,7 +110,6 @@ public class SelectedMonthView extends JPanel {
 
 		// Adding functionality to the right button so that it moves one month after
 		right.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				removeAll();
@@ -112,7 +119,7 @@ public class SelectedMonthView extends JPanel {
 			}
 
 		});
-
+		
 		// Show the days on top
 		String[] days = { "S", "M", "T", "W", "T", "F", "S" };
 
@@ -126,6 +133,15 @@ public class SelectedMonthView extends JPanel {
 		for (int m = 0; m < 6; m++) {
 			for (int y = 0; y < 7; y++) {
 				daysHolder[m][y] = new JButton();
+				daysHolder[m][y].addActionListener(new ActionListener(){
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						month = cal.getMonth().name(); 
+						year = cal.getYear();
+						day = Integer.parseInt(((JButton)e.getSource()).getText());
+					}
+					
+				});
 				add(daysHolder[m][y]);
 			}
 		}
@@ -279,6 +295,22 @@ public class SelectedMonthView extends JPanel {
 				break;
 			}
 		}
+		
+	}
+	@Override
+	public void stateChanged(ChangeEvent e) {
+		
 	}
 
+	@Override
+	public void next() {
+		// TODO Auto-generated method stub
+		setN(getN()+1);
+	}
+
+	@Override
+	public void previous() {
+		// TODO Auto-generated method stub
+		setN(getN()-1);
+	}
 }
