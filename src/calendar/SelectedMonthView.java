@@ -305,12 +305,10 @@ public class SelectedMonthView extends JPanel implements CalendarView{
 	@Override
 	public void next() {
 		// TODO Auto-generated method stub
-		setN(getN()+1);
 	}
 
 	@Override
 	public void previous() {
 		// TODO Auto-generated method stub
-		setN(getN()-1);
 	}
 }
