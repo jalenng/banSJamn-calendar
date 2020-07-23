@@ -14,7 +14,7 @@ public class CalendarModel {
 
 	private TreeSet<Event> events;
 	private ArrayList<ChangeListener> listeners; 
-	private LocalDate selectedDate;
+	private static LocalDate selectedDate;
 	
 	public CalendarModel() {
 		events = new TreeSet<>();
@@ -48,7 +48,7 @@ public class CalendarModel {
 	 * Returns the selected LocalDate
 	 * @return	the selected LocalDate
 	 */
-	public LocalDate getSelectedDate() {
+	public static LocalDate getSelectedDate() {
 		return selectedDate;
 	}
 	
@@ -90,6 +90,14 @@ public class CalendarModel {
 	public void advanceSelectedDateByMonth(int i) {
 		selectedDate = selectedDate.plusMonths(i).withDayOfMonth(1);
 		update();
+	}
+	
+	/**
+	 * Attaches a Change Listener to this model
+	 * @param listener	listener to attach
+	 */
+	public void attach(ChangeListener listener) {
+		listeners.add(listener);
 	}
 	
 	/**

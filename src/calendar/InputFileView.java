@@ -120,7 +120,6 @@ class InputFileView extends JPanel {
 	            		startDate, endDate);
 	            
 	            model.addEvent(newEvent);
-	            System.out.println("Event added");
 	            
 	        }
 	        filesc.close();
