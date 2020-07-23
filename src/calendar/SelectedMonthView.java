@@ -26,7 +26,6 @@ public class SelectedMonthView extends JPanel implements CalendarView{
 		this.n = n;
 		this.setBackground(Color.white);
 		this.setOpaque(true);
-		this.setSize(100, 100);
 		display(n);
 	}
 
