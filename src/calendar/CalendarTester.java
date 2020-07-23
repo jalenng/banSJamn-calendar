@@ -24,13 +24,13 @@ public class CalendarTester {
 		final CalendarModel model = new CalendarModel();
 		
 		CreateView createView = new CreateView(model);
-		DayView dayView = new DayView(model); //uncomment when DayView is implemented
+		//DayView dayView = new MonthView(model); //uncomment when DayView is implemented
 		//WeekView weekView = new MonthView(model); //uncomment when WeekView is implemented
 		//MonthView monthView = new MonthView(model); //uncomment when MonthView is implemented
 		AgendaView agendaView = new AgendaView(model);
 		
 		// Attach views/change listeners to model
-		model.attach(dayView); //uncomment when DayView is implemented
+		//model.attach(dayView); //uncomment when DayView is implemented
 		//model.attach(weekView); //uncomment when WeekView is implemented
 		//model.attach(monthView); //uncomment when MonthView is implemented
 		
