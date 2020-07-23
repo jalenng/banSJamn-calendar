@@ -19,6 +19,8 @@ public class SelectedMonthView extends JPanel {
 	 */
 	public SelectedMonthView(int n) {
 		this.n = n;
+		this.setBackground(Color.white);
+		this.setOpaque(true);
 		display(n);
 	}
 
