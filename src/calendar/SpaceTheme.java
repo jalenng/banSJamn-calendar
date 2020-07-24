@@ -53,6 +53,13 @@ public class SpaceTheme implements ThemeStrategy {
 	}
 	
 	/**
+	 * Returns a string representation of the theme's name
+	 */
+	public String toString() {
+		return "Space Theme";
+	}
+	
+	/**
 	 * A class that creates a moon and star design
 	 */
 	private class MoonAndStar implements Icon {

@@ -23,7 +23,11 @@ public class DayView extends JPanel implements CalendarView{
 	}
 
 	public void display(LocalDate date) {
-		now = CalendarModel.getSelectedDate();
+		// Clear old components
+		this.removeAll();
+		this.revalidate();
+		
+		now = model.getSelectedDate();
 		
 		// variables to get the month, day, year, and day of the week
 		String currentMonth = now.getMonth().name();
@@ -75,22 +79,24 @@ public class DayView extends JPanel implements CalendarView{
 		
 		// insert method to call for "events"
 	}
+	
 	@Override
 	public void stateChanged(ChangeEvent arg0) {
-		// TODO Auto-generated method stub
-		
+		this.display(now);
 	}
 
-	@Override
+	/**
+	 * Moves the selected date forwards by a day
+	 */
 	public void next() {
-		// TODO Auto-generated method stub
-		
+		model.advanceSelectedDateByDays(1);
 	}
 
-	@Override
+	/**
+	 * Moves the selected date forwards by a day
+	 */
 	public void previous() {
-		// TODO Auto-generated method stub
-		
+		model.advanceSelectedDateByDays(-1);
 	}
 
 }

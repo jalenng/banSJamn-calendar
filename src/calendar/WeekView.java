@@ -27,7 +27,11 @@ public class WeekView extends JPanel implements CalendarView{
 	}
 	
 	public void display(LocalDate date) {
-		now = CalendarModel.getSelectedDate();
+		// Clear old components
+		this.removeAll();
+		this.revalidate();
+		
+		now = model.getSelectedDate();
 		
 		// variables to get the month, day, year, and day of the week
 		String currentMonth = now.getMonth().name();
@@ -133,22 +137,23 @@ public class WeekView extends JPanel implements CalendarView{
 	public void displayDayView() {
 		this.removeAll();
 	}
-	@Override
+	
 	public void stateChanged(ChangeEvent arg0) {
-		// TODO Auto-generated method stub
-		
+		this.display(now);
 	}
-
-	@Override
-	public void previous() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
+	
+	/**
+	 * Moves the selected date forwards by a week
+	 */
 	public void next() {
-		// TODO Auto-generated method stub
-		
+		model.advanceSelectedDateByWeek(1);
+	}
+
+	/**
+	 * Moves the selected date backwards by a week
+	 */
+	public void previous() {
+		model.advanceSelectedDateByWeek(-1);
 	}
 
 }

@@ -54,6 +54,12 @@ public class AnimalTheme implements ThemeStrategy {
 		return panel;
 	}
 	
+	/**
+	 * Returns a string representation of the theme's name
+	 */
+	public String toString() {
+		return "Animal Theme";
+	}	
 	
 	/**
 	 * A class that creates the turtles
@@ -276,5 +282,5 @@ public class AnimalTheme implements ThemeStrategy {
 		}
 		
 	} // end Sheep class
-
+	
 }

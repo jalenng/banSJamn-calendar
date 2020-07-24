@@ -14,61 +14,37 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
 
-public class MonthView extends JPanel {
+public class MonthView extends JPanel implements CalendarView {
 	// Private instance variable used to navigate between months
-	private int n = 0;
+	private CalendarModel model;
 
-	/*
+	/**
 	 * Constructor which updates the value of n and calls the display method to
 	 * display the calendar.
 	 * 
 	 * @param n is the month you want to show (either before or after the current
 	 * month)
 	 */
-	public MonthView(int n) {
-		this.n = n;
-		display(n);
+	public MonthView(CalendarModel m) {
+		this.model = m;
+		display();
 	}
 
-	/*
-	 * Helper method that returns the value of n
-	 * 
-	 * @return value of n
-	 */
-	public int getN() {
-		return n;
-	}
-
-	/*
-	 * Helper method that sets the value of n
-	 * 
-	 * @param new value of n
-	 */
-	public void setN(int n) {
-		this.n = n;
-	}
-
-	/*
+	/**
 	 * Creates the calendar. The method takes in the number of months before or
 	 * after the current month and creates an updated calendar.
-	 * 
-	 * @param number of months previous or after the current month
 	 */
-	public void display(int n) {
-
+	public void display() {
+		// Clear old components
+		this.removeAll();
+		this.revalidate();
 		// Get today's date and month
-		LocalDate cal = LocalDate.now();
+		LocalDate cal = model.getSelectedDate();
 		int today = cal.getDayOfMonth();
 		String thisMonth = cal.getMonth().name();
 		int thisYear = cal.getYear();
-
-		// For previous or next month
-		if (n < 0) {
-			cal = cal.minusMonths(Math.abs(n));
-		} else if (n > 0) {
-			cal = cal.plusMonths(n);
-		}
 
 		// Creating the title and adding the left and right button for navigation
 		for (int i = 0; i < 7; i++) {
@@ -236,6 +212,25 @@ public class MonthView extends JPanel {
 				break;
 			}
 		}
+	}
+
+	@Override
+	public void stateChanged(ChangeEvent arg0) {
+		this.display();
+	}
+
+	/**
+	 * Moves the selected date forwards by a month
+	 */
+	public void next() {
+		model.advanceSelectedDateByMonth(1);
+	}
+
+	/**
+	 * Moves the selected date forwards by a month
+	 */
+	public void previous() {
+		model.advanceSelectedDateByMonth(-1);		
 	}
 
 }
