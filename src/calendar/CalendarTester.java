@@ -1,6 +1,7 @@
 package calendar;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -227,6 +228,12 @@ public class CalendarTester {
 		// Adding left and right halves to the frame
 		frame.add(leftControls, BorderLayout.WEST);
 		frame.add(rightControls, BorderLayout.EAST);
+		
+		// Adding Themes
+//		ThemeStrategy spaceTheme = new SpaceTheme();
+//		ThemeStrategy animalTheme = new AnimalTheme();
+//		frame.add(spaceTheme.displayTop(), BorderLayout.NORTH);
+//		frame.add(spaceTheme.displayBottom(), BorderLayout.SOUTH);
 		
 		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

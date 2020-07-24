@@ -24,7 +24,10 @@ class InputFileView extends JPanel {
 	CalendarModel model;
 	JLabel errorLabel;
 	
-	
+	/**
+	 * Creates the view to input filepath
+	 * @param m
+	 */
 	public InputFileView(CalendarModel m) {
 		model = m;
 		
@@ -80,11 +83,13 @@ class InputFileView extends JPanel {
 		c.gridx = 0;
 		c.gridy = 3;
 		this.add(submitButton, c);
-		
-		
 	}
 	
 	
+	/**
+	 * Adds files to the CalendarModel model
+	 * @param filepath
+	 */
 	private void addEvents(String filepath) {
 		
 		try {
