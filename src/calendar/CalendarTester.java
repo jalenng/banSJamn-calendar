@@ -1,7 +1,6 @@
 package calendar;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -11,15 +10,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ContainerEvent;
 import java.awt.event.ContainerListener;
-import java.io.File;
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class CalendarTester {
@@ -198,12 +193,8 @@ public class CalendarTester {
 		// InputFile action listener
 		importFileButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				rightControls.removeAll();
-				rightControls.add(changeViewNav, BorderLayout.NORTH);
-				rightControls.add(new InputFileView(model), BorderLayout.CENTER);
-				rightControls.revalidate();
-				rightControls.repaint();
-				importFileButton.setEnabled(false);
+				if (FileImporter.importFile(model))
+					importFileButton.setEnabled(false);
 			}
 		});
 

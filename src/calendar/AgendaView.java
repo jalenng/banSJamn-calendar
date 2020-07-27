@@ -13,6 +13,7 @@ import java.util.TreeSet;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -83,10 +84,20 @@ public class AgendaView extends JPanel implements CalendarView {
 					displayAgenda();
 				}
 				catch (DateTimeException exception) {
-					errorLabel.setText("** Invalid Date **");
+					JOptionPane.showMessageDialog(
+			    			null, 
+			    			"Invalid date.", 
+			    			"Agenda View", 
+			    			JOptionPane.ERROR_MESSAGE
+			    		);
 				}
 				catch (Exception exception2) {
-					errorLabel.setText("** Invalid Date Format **");
+					JOptionPane.showMessageDialog(
+			    			null, 
+			    			"Invalid date format.", 
+			    			"Agenda View", 
+			    			JOptionPane.ERROR_MESSAGE
+			    		);
 				}
 				
 			}

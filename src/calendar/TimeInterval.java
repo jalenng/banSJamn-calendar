@@ -1,13 +1,12 @@
-/**
- * @author jalen
- */
-
 package calendar;
 
 import java.time.LocalTime;
 
 /**
  * A time interval is a span of time that has a starting time and ending time
+ * @author Jalen
+ * @version 1.0
+ * @copyright banSJamn
  */
 public class TimeInterval {
 	

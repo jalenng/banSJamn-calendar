@@ -1,16 +1,13 @@
-/**
- * 
- */
-
 package calendar;
 
-import java.time.LocalDate;
 import javax.swing.event.ChangeListener;
 
 /**
  * CalendarViews can be traversed by changing the selected date 
  * (previous/next), and are updated when the model's state is changed.
- * 
+ * @author jalen
+ * @version 1.0
+ * @copyright banSJamn
  */
 
 public interface CalendarView extends ChangeListener {

@@ -8,8 +8,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 /**
- * An event has a name, date, and time interval. Events can also be recursive so that they 
- * repeat on certain days of the week and from a starting date to an ending date.
+ * An event has a name, date, and time interval. Events can also be recursive 
+ * so that they repeat on certain days of the week and from a starting date to
+ * an ending date.
+ * @author Jalen and Shana
+ * @version 1.0
+ * @copyright banSJamn
  */
 public class Event implements Comparable<Event>{
 	
@@ -29,7 +33,8 @@ public class Event implements Comparable<Event>{
 	/**
 	 * Instantiates a new recurring event
 	 * @param name	Name of event
-	 * @param days	String of character(s) in set {SMTWHFA} to indicate days of the week to recurse
+	 * @param days	String of character(s) in set {SMTWHFA} to indicate days of
+	 * 				the week to recurse
 	 * @param startTime	Starting time of event
 	 * @param endTime	Ending time of event
 	 * @param startDate	Starting date of recursion
@@ -106,7 +111,8 @@ public class Event implements Comparable<Event>{
 	}
 	
 	/**
-	 * Returns the TimeInterval of the event that houses the startTime and endTime
+	 * Returns the TimeInterval of the event that houses the startTime and 
+	 * endTime
 	 * @return	TimeInterval of event
 	 */
 	public TimeInterval getTimeInterval() {
@@ -130,8 +136,8 @@ public class Event implements Comparable<Event>{
 	/**
 	 * Compares two events by its date, then starting time, then by name.
 	 * @param that
-	 * @return	an integer < 0 if this comes before that, > 0 if this comes after that, 
-	 * 			and = 0 if this is the same as that.
+	 * @return	an integer < 0 if this comes before that, > 0 if this comes 
+	 * 			after that, and = 0 if this is the same as that.
 	 */
 	public int compareTo(Event that) {
 		LocalDateTime startTime1 = LocalDateTime.of(this.date, this.timeInterval.getStartTime());
@@ -142,7 +148,8 @@ public class Event implements Comparable<Event>{
 	}
 	
 	/**
-	 * Returns the string representation of the event in a format compatible with events.txt and output.txt
+	 * Returns the string representation of the event in a format compatible 
+	 * with events.txt and output.txt
 	 * @return	String representation of event
 	 */
 	public String toString() {
@@ -169,7 +176,8 @@ public class Event implements Comparable<Event>{
 	}
 	
 	/**
-	 * Returns the string representation of the event in a format suitable for day-view
+	 * Returns the string representation of the event in a format suitable for 
+	 * day-view
 	 * @return	String representation of event
 	 */
 	public String toStringForDayView() {	

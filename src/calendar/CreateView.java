@@ -10,6 +10,7 @@ import java.time.LocalTime;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -19,7 +20,6 @@ import javax.swing.JTextField;
 class CreateView extends JPanel {
 
 	CalendarModel model;
-	JLabel messageLabel;
 
 	public CreateView(CalendarModel m) {
 		model = m;
@@ -32,7 +32,6 @@ class CreateView extends JPanel {
 		JLabel dateLabel = new JLabel("Date (MM/DD/YYYY)");
 		JLabel startTimeLabel = new JLabel("Start time (HH)");
 		JLabel endTimeLabel = new JLabel("End time (HH)");
-		messageLabel = new JLabel();
 
 		JTextField nameTextField = new JTextField();
 		JTextField dateTextField = new JTextField();
@@ -78,7 +77,7 @@ class CreateView extends JPanel {
 					Event event = new Event(nameStr, date, startTime, endTime);
 
 					if (model.addEvent(event)) //returns true if added successfully
-						message = "Saved event: " + event;
+						message = "Saved the event: " + event;
 					else
 						message = "Not saved. There is a conflict with an existing event.";
 				}
@@ -94,7 +93,12 @@ class CreateView extends JPanel {
 					message = "Provide a name";
 				}
 				finally {
-					messageLabel.setText(message);
+					JOptionPane.showMessageDialog(
+			    			null, 
+			    			message, 
+			    			"Create Event", 
+			    			JOptionPane.INFORMATION_MESSAGE
+			    		);
 				}
 			}
 
@@ -116,7 +120,6 @@ class CreateView extends JPanel {
 		this.add(endTimeTextField);
 
 		this.add(saveButton);
-		this.add(messageLabel);
 
 	}
 
