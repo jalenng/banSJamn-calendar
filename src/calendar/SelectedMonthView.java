@@ -16,7 +16,8 @@ public class SelectedMonthView extends JPanel implements CalendarView{
 	private int day;
 	private LocalDate cal;
 	private JButton highlighted;
-	/*
+	
+	/**
 	 * Constructor which updates the value of n and calls the display method to
 	 * display the calendar.
 	 * 
@@ -30,7 +31,7 @@ public class SelectedMonthView extends JPanel implements CalendarView{
 		display(n);
 	}
 
-	/*
+	/**
 	 * Helper method that returns the value of n
 	 * 
 	 * @return value of n
@@ -39,7 +40,7 @@ public class SelectedMonthView extends JPanel implements CalendarView{
 		return n;
 	}
 
-	/*
+	/**
 	 * Helper method that sets the value of n
 	 * 
 	 * @param new value of n
@@ -48,7 +49,7 @@ public class SelectedMonthView extends JPanel implements CalendarView{
 		this.n = n;
 	}
 
-	/*
+	/**
 	 * Creates the calendar. The method takes in the number of months before or
 	 * after the current month and creates an updated calendar.
 	 * 
@@ -140,7 +141,7 @@ public class SelectedMonthView extends JPanel implements CalendarView{
 						year = cal.getYear();
 						day = Integer.parseInt(((JButton)e.getSource()).getText());
 						if (highlighted != null) {
-							highlighted.setBackground(new Color(-16777216));
+							highlighted.setContentAreaFilled(false);
 							highlighted.setOpaque(false);
 							highlighted.setContentAreaFilled(false);
 							highlighted.setBorderPainted(true);
