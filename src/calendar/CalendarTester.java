@@ -8,6 +8,8 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.ContainerEvent;
 import java.awt.event.ContainerListener;
 import java.time.LocalDate;
@@ -17,8 +19,23 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/**
+ * Calendar Project
+ * @author banSJamn
+ * @version 1.0
+ * @copyright banSJamn
+ */
+
+/**
+ * Class to display the calendar
+ */
 public class CalendarTester {
 
+	/**
+	 * Displays the calendar with buttons for different views,
+	 * such as Day, Month, Week, Agenda, FileImporter, and ThemeStrategy 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 
 		final CalendarModel model = new CalendarModel();
@@ -28,6 +45,7 @@ public class CalendarTester {
 		final WeekView weekView = new WeekView(model); 
 		final MonthView monthView = new MonthView(model);
 		final AgendaView agendaView = new AgendaView(model);
+		
 
 		// Attach views/change listeners to model
 		model.attach(dayView); 
@@ -184,6 +202,7 @@ public class CalendarTester {
 				rightControls.removeAll();
 				rightControls.add(changeViewNav, BorderLayout.NORTH);
 				rightControls.add(agendaView, BorderLayout.CENTER);
+				agendaView.inputIntervalView();
 				rightControls.revalidate();
 				rightControls.repaint();
 			}
@@ -243,6 +262,32 @@ public class CalendarTester {
 			}
 
 		});
+		
+		// Adding resizing listener to JFrame to resize the theme
+		frame.addComponentListener(new ComponentAdapter() 
+		{  
+		        public void componentResized(ComponentEvent evt) {
+		        	for(ThemeStrategy theme : themes) {
+		        		theme.updateWidth(frame.getWidth());
+		        	}
+		        	ThemeStrategy selectedTheme = 
+							(ThemeStrategy)(themeSelector.getSelectedItem());
+
+					themePanelTop.removeAll();
+					themePanelBottom.removeAll();
+
+					themePanelTop.add(selectedTheme.displayTop());
+					themePanelBottom.add(selectedTheme.displayBottom());
+
+					themePanelTop.revalidate();
+					themePanelTop.repaint();
+
+					themePanelBottom.revalidate();
+					themePanelBottom.repaint();
+		        }
+		});
+		
+		
 		leftControls.add(themeSelector, BorderLayout.SOUTH);
 
 		// Adding left and right halves to the frame

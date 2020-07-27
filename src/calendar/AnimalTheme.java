@@ -13,12 +13,27 @@ import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * Calendar Project
+ * @author shana
+ * @version 1.0
+ * @copyright banSJamn
+ */
 
 /**
  * A Calendar Theme with Turtles and Sheep
  */
 public class AnimalTheme implements ThemeStrategy {
 
+	private int width = 1000;
+	
+	/**
+	 * Updates the width of the theme
+	 */
+	public void updateWidth(int w) {
+		width = w;
+	}
+	
 	/**
 	 * Creates a view for the top part of the theme
 	 * @return panel
@@ -26,7 +41,7 @@ public class AnimalTheme implements ThemeStrategy {
 	public JPanel displayTop() {
 		JPanel panel = new JPanel();
 		
-		Turtle turtle = new Turtle(50);
+		Turtle turtle = new Turtle(width, 50);
 		JLabel topLabel = new JLabel(turtle);
 		
 		panel.add(topLabel);
@@ -44,7 +59,7 @@ public class AnimalTheme implements ThemeStrategy {
 	public JPanel displayBottom() {
 		JPanel panel = new JPanel();
 		
-		Sheep sheep = new Sheep(50);
+		Sheep sheep = new Sheep(width, 50);
 		JLabel bottomLabel = new JLabel(sheep);
 		
 		panel.add(bottomLabel);
@@ -73,7 +88,8 @@ public class AnimalTheme implements ThemeStrategy {
 		 * Constructs a Turtle
 		 * @param h
 		 */
-		public Turtle(int h) {
+		public Turtle(int w, int h) {
+			width = w;
 			height = h;
 		}
 		
@@ -182,7 +198,8 @@ public class AnimalTheme implements ThemeStrategy {
 		 * Constructs a Sheep
 		 * @param h
 		 */
-		public Sheep(int h) {
+		public Sheep(int w, int h) {
+			width = w;
 			height = h;
 		}
 		

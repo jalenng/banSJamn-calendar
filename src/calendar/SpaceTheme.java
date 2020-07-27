@@ -11,11 +11,27 @@ import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * Calendar Project
+ * @author shana
+ * @version 1.0
+ * @copyright banSJamn
+ */
 
 /**
  * A Calendar theme with Moon and Stars
  */
 public class SpaceTheme implements ThemeStrategy {
+	
+	private int width = 1000;
+	
+	/**
+	 * Updates the width of the theme
+	 */
+	public void updateWidth(int w) {
+		width = w;
+	}
+	
 	
 	/**
 	 * Creates a view for the top part of the theme
@@ -24,13 +40,13 @@ public class SpaceTheme implements ThemeStrategy {
 	public JPanel displayTop() {
 		JPanel panel = new JPanel();
 		
-		MoonAndStar moonAndStar = new MoonAndStar(50);
+		MoonAndStar moonAndStar = new MoonAndStar(width, 50);
 		JLabel moonAndStarLabel = new JLabel(moonAndStar);
 		
 		panel.add(moonAndStarLabel);
 		
 		panel.setBackground(Color.gray);
-		
+				
 		return panel;
 	}
 	
@@ -42,7 +58,7 @@ public class SpaceTheme implements ThemeStrategy {
 	public JPanel displayBottom() {
 		JPanel panel = new JPanel();
 
-		Stars moon = new Stars(50);
+		Stars moon = new Stars(width, 50);
 		JLabel moonLabel = new JLabel(moon);
 		
 		panel.add(moonLabel);
@@ -64,14 +80,15 @@ public class SpaceTheme implements ThemeStrategy {
 	 */
 	private class MoonAndStar implements Icon {
 
-		private int width = 1000;
+		private int width;
 		private int height;
 		
 		/**
 		 * Constructs the MoonAndStar
 		 * @param diameter
 		 */
-		public MoonAndStar(int diameter) {
+		public MoonAndStar(int w, int diameter) {
+			width = w;
 			height = diameter;
 		}
 		
@@ -84,7 +101,7 @@ public class SpaceTheme implements ThemeStrategy {
 			
 			g2.setColor(Color.white);
 			
-			Ellipse2D.Double moon = new Ellipse2D.Double(0, 5, height, height);
+			Ellipse2D.Double moon = new Ellipse2D.Double(5, 5, height, height);
 			
 			int starCount = 0;
 			while(starCount < 20) {
@@ -141,14 +158,15 @@ public class SpaceTheme implements ThemeStrategy {
 	 */
 	private class Stars implements Icon {
 		
-		private int width = 1000;
+		private int width;
 		private int height;
 		
 		/**
 		 * Constructs the Stars
 		 * @param h
 		 */
-		public Stars(int h) {
+		public Stars(int w, int h) {
+			width = w;
 			height = h;
 		}
 		
