@@ -89,7 +89,7 @@ public class CalendarModel {
 	 * 			go back in time.
 	 */
 	public void advanceSelectedDateByMonth(int i) {
-		selectedDate = selectedDate.plusMonths(i).withDayOfMonth(1);
+		selectedDate = selectedDate.plusMonths(i);
 		update();
 	}
 	
