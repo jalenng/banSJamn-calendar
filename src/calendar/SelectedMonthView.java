@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -16,6 +17,7 @@ public class SelectedMonthView extends JPanel implements CalendarView{
 	private int day;
 	private LocalDate cal;
 	private JButton highlighted;
+	private LocalDate todayDate;
 	
 	/**
 	 * Constructor which updates the value of n and calls the display method to
@@ -26,8 +28,10 @@ public class SelectedMonthView extends JPanel implements CalendarView{
 	 */
 	public SelectedMonthView(int n) {
 		this.n = n;
+		this.setSize(400, 400);
 		this.setBackground(Color.white);
 		this.setOpaque(true);
+		this.todayDate = LocalDate.now();
 		display(n);
 	}
 
@@ -76,9 +80,13 @@ public class SelectedMonthView extends JPanel implements CalendarView{
 		for (int i = 0; i < 7; i++) {
 			if (i == 0) {
 				JLabel month = new JLabel(cal.getMonth().name(), SwingConstants.CENTER);
+				month.setBackground(Color.WHITE);
+				month.setOpaque(true);
 				add(month);
 			} else if (i == 1) {
 				JLabel year = new JLabel("" + cal.getYear(), SwingConstants.CENTER);
+				year.setBackground(Color.WHITE);
+				year.setOpaque(true);
 				add(year);
 			} else if (i == 5) {
 				left = new JButton(" < ");
@@ -94,6 +102,8 @@ public class SelectedMonthView extends JPanel implements CalendarView{
 				add(right);
 			} else {
 				JLabel empty = new JLabel("");
+				empty.setBackground(Color.WHITE);
+				empty.setOpaque(true);
 				add(empty);
 			}
 		}
@@ -134,22 +144,47 @@ public class SelectedMonthView extends JPanel implements CalendarView{
 		for (int m = 0; m < 6; m++) {
 			for (int y = 0; y < 7; y++) {
 				daysHolder[m][y] = new JButton();
+				daysHolder[m][y].setBackground(Color.WHITE);
+				daysHolder[m][y].setOpaque(true);
 				daysHolder[m][y].addActionListener(new ActionListener(){
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						month = cal.getMonth().name(); 
 						year = cal.getYear();
-						day = Integer.parseInt(((JButton)e.getSource()).getText());
-						if (highlighted != null) {
-							highlighted.setContentAreaFilled(false);
-							highlighted.setOpaque(false);
-							highlighted.setContentAreaFilled(false);
+						if(((JButton)e.getSource()).getText() == "") {
+							day = 0;
+						} else {
+							day = Integer.parseInt(((JButton)e.getSource()).getText());
+						}
+						String thisMonth = getTodayDate().getMonth().name();
+						
+						if(highlighted != null) {
+							highlighted.setBackground(Color.WHITE);
+							highlighted.setOpaque(true);
 							highlighted.setBorderPainted(true);
 						}
-						highlighted =  ((JButton)e.getSource());
-						highlighted.setBackground(Color.CYAN);
-						highlighted.setOpaque(true);
-						highlighted.setBorderPainted(false);
+						
+						if (thisMonth.compareTo(month) == 0 && getTodayDate().getYear() == year
+								&& getTodayDate().getDayOfMonth() == day) {
+							highlighted.setBackground(Color.BLUE);
+							highlighted.setOpaque(false);
+							highlighted.setBorderPainted(true);
+						} 
+						
+						if( (thisMonth.compareTo(month) == 0 && getTodayDate().getYear() == year
+								&& getTodayDate().getDayOfMonth() != day)){
+							highlighted = ((JButton) e.getSource());
+							highlighted.setBackground(Color.CYAN);
+							highlighted.setOpaque(true);
+							highlighted.setBorderPainted(false);
+						} 
+						
+						if(day == 0) {
+							highlighted.setBackground(Color.WHITE);
+							highlighted.setOpaque(false);
+							highlighted.setBorderPainted(true);
+						}
+						
 					}
 					
 				});
@@ -308,6 +343,14 @@ public class SelectedMonthView extends JPanel implements CalendarView{
 		}
 		
 	}
+	public LocalDate getTodayDate() {
+		return todayDate;
+	}
+
+	public void setTodayDate(LocalDate todayDate) {
+		this.todayDate = todayDate;
+	}
+
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		
