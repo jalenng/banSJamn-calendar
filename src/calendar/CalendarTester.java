@@ -1,6 +1,7 @@
 package calendar;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -16,51 +17,52 @@ import java.time.LocalTime;
 import java.util.Scanner;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class CalendarTester {
-	
+
 	public static void main(String[] args) {
-		
+
 		final CalendarModel model = new CalendarModel();
-		
+
 		final CreateView createView = new CreateView(model);
 		final DayView dayView = new DayView(model); 
 		final WeekView weekView = new WeekView(model); 
-		final MonthView monthView = new MonthView(0); //month view should take in model as param
+		final MonthView monthView = new MonthView(model);
 		final AgendaView agendaView = new AgendaView(model);
-		
+
 		// Attach views/change listeners to model
 		model.attach(dayView); 
 		model.attach(weekView); 
-		//model.attach(monthView); //uncomment when month view implements ChangeListener
-		
+		model.attach(monthView); 
+
 		final JFrame frame = new JFrame();
 		frame.setTitle("Calendar");
 		frame.setMinimumSize(new Dimension(900, 500));
-		
+
 		// Split JFrame into two halves
 		final JPanel leftControls = new JPanel();
 		leftControls.setLayout(new BorderLayout());
 		final JPanel rightControls = new JPanel();
 		rightControls.setLayout(new BorderLayout());
-		
-		
+
+
 		// Left half has a JPanel for the top buttons (top-left panel)
 		JPanel currentViewNav = new JPanel();
 		currentViewNav.setLayout(new GridBagLayout());
-		
+
 		final JButton todayButton = new JButton("Today");
 		final JButton todayLeftButton = new JButton("<");
 		final JButton todayRightButton = new JButton(">");
 		final JButton createButton = new JButton("Create Event");		
-		
+
 		// Disable todayLeftButton and todayRightButton by default
 		todayLeftButton.setEnabled(false);
 		todayRightButton.setEnabled(false);
-		
+
 		// Adding buttons to top-left panel
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
@@ -74,52 +76,25 @@ public class CalendarTester {
 		c.gridy++;
 		c.gridwidth = 3;
 		currentViewNav.add(createButton, c);
-		
+
 		// Right half has a JPanel for the top buttons (top-right panel)
 		JPanel changeViewNav = new JPanel();
-		changeViewNav.setLayout(new GridLayout(1,5));
-		
+		changeViewNav.setLayout(new GridLayout(1, 5));
+
 		final JButton dayButton = new JButton("Day");
 		final JButton weekButton = new JButton("Week");
 		final JButton monthButton = new JButton("Month");
 		final JButton agendaButton = new JButton("Agenda");
 		final JButton importFileButton = new JButton("Import File");
-		
-		
-		// Agenda action listener
-		agendaButton.addActionListener(new ActionListener() {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				rightControls.removeAll();
-				rightControls.add(changeViewNav, BorderLayout.NORTH);
-				rightControls.add(agendaView, BorderLayout.CENTER);
-				rightControls.revalidate();
-				rightControls.repaint();
-			}
-			
-		});
-		
-		// InputFile action listener
-		importFileButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				rightControls.removeAll();
-				rightControls.add(changeViewNav, BorderLayout.NORTH);
-				rightControls.add(new InputFileView(model), BorderLayout.CENTER);
-				rightControls.revalidate();
-				rightControls.repaint();
-				importFileButton.setEnabled(false);
-			}
-		});
-		
+
 		// Today action listener
 		todayButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model.setSelectedDate(LocalDate.now());
 			}
 		});
-				
+
 		// Left/Previous (<) action listener
 		todayLeftButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -129,7 +104,7 @@ public class CalendarTester {
 				}
 			}
 		});
-			
+
 		// Right/Next (>) action listener
 		todayRightButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -139,7 +114,7 @@ public class CalendarTester {
 				}
 			}
 		});
-		
+
 		// Checks whether a CalendarView is in the right side to determine
 		// whether to disable the left/right buttons
 		rightControls.addContainerListener(new ContainerListener() {
@@ -163,32 +138,20 @@ public class CalendarTester {
 				}
 			}
 		});
-		
+
 		// Create Event action listener
 		createButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					rightControls.removeAll();
-					rightControls.add(changeViewNav, BorderLayout.NORTH);
-					rightControls.add(createView, BorderLayout.CENTER);
-					rightControls.revalidate();
-					rightControls.repaint();
-				}
-			});
-		
-		// Adding buttons to top-right panel
-		changeViewNav.add(dayButton);
-		changeViewNav.add(weekButton);
-		changeViewNav.add(monthButton);
-		changeViewNav.add(agendaButton);
-		changeViewNav.add(importFileButton);
-				
-		// Adding top-left panel to left half & top-right panel to right half
-		leftControls.add(currentViewNav, BorderLayout.NORTH);
-		rightControls.add(changeViewNav, BorderLayout.NORTH);
-		
+			public void actionPerformed(ActionEvent e) {
+				rightControls.removeAll();
+				rightControls.add(changeViewNav, BorderLayout.NORTH);
+				rightControls.add(createView, BorderLayout.CENTER);
+				rightControls.revalidate();
+				rightControls.repaint();
+			}
+		});
+
 		// DayView Action Listener
 		dayButton.addActionListener(new ActionListener(){
-			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				rightControls.removeAll();
 				rightControls.add(changeViewNav, BorderLayout.NORTH);
@@ -197,10 +160,9 @@ public class CalendarTester {
 				rightControls.repaint();	
 			}		
 		});
-		
+
 		// WeekView Action Listener
 		weekButton.addActionListener(new ActionListener(){
-			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				rightControls.removeAll();
 				rightControls.add(changeViewNav, BorderLayout.NORTH);
@@ -209,12 +171,9 @@ public class CalendarTester {
 				rightControls.repaint();	
 			}		
 		});
-		
-		leftControls.add(new SelectedMonthView(0), BorderLayout.CENTER);
-		
+
 		// MonthView Action Listener
 		monthButton.addActionListener(new ActionListener(){
-			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				rightControls.removeAll();
 				rightControls.add(changeViewNav, BorderLayout.NORTH);
@@ -223,15 +182,87 @@ public class CalendarTester {
 				rightControls.repaint();	
 			}		
 		});
+
+		// Agenda action listener
+		agendaButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				rightControls.removeAll();
+				rightControls.add(changeViewNav, BorderLayout.NORTH);
+				rightControls.add(agendaView, BorderLayout.CENTER);
+				rightControls.revalidate();
+				rightControls.repaint();
+			}
+
+		});
+
+		// InputFile action listener
+		importFileButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				rightControls.removeAll();
+				rightControls.add(changeViewNav, BorderLayout.NORTH);
+				rightControls.add(new InputFileView(model), BorderLayout.CENTER);
+				rightControls.revalidate();
+				rightControls.repaint();
+				importFileButton.setEnabled(false);
+			}
+		});
+
+		// Adding buttons to top-right panel
+		changeViewNav.add(dayButton);
+		changeViewNav.add(weekButton);
+		changeViewNav.add(monthButton);
+		changeViewNav.add(agendaButton);
+		changeViewNav.add(importFileButton);
+
+		// Adding top-left panel to left half & top-right panel to right half
+		leftControls.add(currentViewNav, BorderLayout.NORTH);
+		rightControls.add(changeViewNav, BorderLayout.NORTH);
+
+		leftControls.add(new SelectedMonthView(0), BorderLayout.CENTER);
+
+		// Theme Panels at the top and bottom of frame
+		JPanel themePanelTop = new JPanel();
+		JPanel themePanelBottom = new JPanel();
+		frame.add(themePanelTop, BorderLayout.NORTH);
+		frame.add(themePanelBottom, BorderLayout.SOUTH);
+
+		// Theme Selector
+		ThemeStrategy[] themes = {
+				new SpaceTheme(),
+				new AnimalTheme()
+		};
 		
+		JComboBox<ThemeStrategy> themeSelector = new JComboBox<ThemeStrategy>(themes);
+		themeSelector.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ThemeStrategy selectedTheme = 
+						(ThemeStrategy)(themeSelector.getSelectedItem());
+
+				themePanelTop.removeAll();
+				themePanelBottom.removeAll();
+
+				themePanelTop.add(selectedTheme.displayTop());
+				themePanelBottom.add(selectedTheme.displayBottom());
+
+				themePanelTop.revalidate();
+				themePanelTop.repaint();
+
+				themePanelBottom.revalidate();
+				themePanelBottom.repaint();
+			}
+
+		});
+		leftControls.add(themeSelector, BorderLayout.SOUTH);
+
 		// Adding left and right halves to the frame
 		frame.add(leftControls, BorderLayout.WEST);
-		frame.add(rightControls, BorderLayout.EAST);
-		
+		frame.add(rightControls, BorderLayout.CENTER);
+
+		// Set frame properties
 		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-
+		
 	}
-	
+
 }

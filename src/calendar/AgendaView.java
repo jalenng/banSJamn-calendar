@@ -19,6 +19,9 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 
+/**
+ * A JPanel view to display the Agenda
+ */
 public class AgendaView extends JPanel implements CalendarView {
 	
 	private CalendarModel model;
@@ -26,12 +29,16 @@ public class AgendaView extends JPanel implements CalendarView {
 	private LocalDate startDate;
 	private LocalDate endDate;
 	
+	
+	/**
+	 * Creates the view for the user to enter a date interval
+	 * @param m
+	 */
 	public AgendaView(CalendarModel m) {
 		
 		this.setLayout(new BorderLayout());
 		this.model = m;
 		events = m.getEvents();
-		
 		
 		JLabel titleLabel = new JLabel("What time frame do you want to view? (MM/DD/YYYY)");
 		
@@ -118,11 +125,13 @@ public class AgendaView extends JPanel implements CalendarView {
 		inputPanel.add(submitButton, c);
 		
 		this.add(inputPanel, BorderLayout.CENTER);
-		
-		
+
 	}
 	
 	
+	/**
+	 * Creates a view to display the agenda within the specified interval
+	 */
 	public void displayAgenda() {
 		this.removeAll();
 		
@@ -171,17 +180,20 @@ public class AgendaView extends JPanel implements CalendarView {
 		this.revalidate();
 		this.repaint();
 	}
-		
-	
+
+	@Override
 	public void next() {}
-	
-	
+
+	@Override
 	public void previous() {}
 
 
 	//
 	// This needs to be tested still
 	//
+	/**
+	 * Updates the model when CalendarModel changes
+	 */
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		events = model.getEvents();

@@ -8,7 +8,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 /**
- * A Calendar houses a data structure to aggregate and manage events
+ * A calendar model holds the selected date of the program, as well as houses
+ * a data structure to aggregate and manage events
  */
 public class CalendarModel {
 
@@ -48,7 +49,7 @@ public class CalendarModel {
 	 * Returns the selected LocalDate
 	 * @return	the selected LocalDate
 	 */
-	public static LocalDate getSelectedDate() {
+	public LocalDate getSelectedDate() {
 		return selectedDate;
 	}
 	
