@@ -228,7 +228,7 @@ public class CalendarTester {
 		leftControls.add(currentViewNav, BorderLayout.NORTH);
 		rightControls.add(changeViewNav, BorderLayout.NORTH);
 
-		leftControls.add(new SelectedMonthView(0), BorderLayout.CENTER);
+		leftControls.add(new SelectedMonthView(model), BorderLayout.CENTER);
 
 		// Theme Panels at the top and bottom of frame
 		JPanel themePanelTop = new JPanel();

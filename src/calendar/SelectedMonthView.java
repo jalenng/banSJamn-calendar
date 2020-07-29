@@ -1,82 +1,62 @@
 package calendar;
+
 import java.time.LocalDate;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
-public class SelectedMonthView extends JPanel implements CalendarView{
+public class SelectedMonthView extends JPanel implements CalendarView {
 
 	// Private instance variable used to navigate between months
-	private int n;
 	private String month;
 	private int year;
 	private int day;
+
 	private LocalDate cal;
+
 	private JButton highlighted;
-	private LocalDate todayDate;
-	
+	private CalendarModel model;
+
+	private static int todayDate;
+	private static String thisMonth;
+	private static int thisYear;
+
 	/**
 	 * Constructor which updates the value of n and calls the display method to
 	 * display the calendar.
 	 * 
 	 * @param n is the month you want to show (either before or after the current
-	 * month)
+	 *          month)
 	 */
-	public SelectedMonthView(int n) {
-		this.n = n;
-		this.setSize(400, 400);
-		this.setBackground(Color.white);
-		this.setOpaque(true);
-		this.todayDate = LocalDate.now();
-		display(n);
-	}
-
-	/**
-	 * Helper method that returns the value of n
-	 * 
-	 * @return value of n
-	 */
-	public int getN() {
-		return n;
-	}
-
-	/**
-	 * Helper method that sets the value of n
-	 * 
-	 * @param new value of n
-	 */
-	public void setN(int n) {
-		this.n = n;
+	public SelectedMonthView(CalendarModel m) {
+		this.model = m;
+		cal = model.getSelectedDate();
+		thisMonth = cal.getMonth().name();
+		thisYear = cal.getYear();
+		todayDate = cal.getDayOfMonth();
+		display();
 	}
 
 	/**
 	 * Creates the calendar. The method takes in the number of months before or
 	 * after the current month and creates an updated calendar.
 	 * 
-	 * @param number of months previous or after the current month
 	 */
-	public void display(int n) {
+	public void display() {
 
+		// Clear old components
+		this.removeAll();
+		this.revalidate();
 		// Get today's date and month
-		cal = LocalDate.now();
+		cal = model.getSelectedDate();
 		int today = cal.getDayOfMonth();
-		String thisMonth = cal.getMonth().name();
-		int thisYear = cal.getYear();
-
-		// For previous or next month
-		if (n < 0) {
-			cal = cal.minusMonths(Math.abs(n));
-		} else if (n > 0) {
-			cal = cal.plusMonths(n);
-		}
 
 		// Creating the title and adding the left and right button for navigation
 		JButton left = new JButton();
 		JButton right = new JButton();
+
 		for (int i = 0; i < 7; i++) {
 			if (i == 0) {
 				JLabel month = new JLabel(cal.getMonth().name(), SwingConstants.CENTER);
@@ -112,10 +92,7 @@ public class SelectedMonthView extends JPanel implements CalendarView{
 		left.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				removeAll();
-				setN(getN() - 1);
-				display(getN());
-				repaint();
+				previous();
 			}
 		});
 
@@ -123,19 +100,19 @@ public class SelectedMonthView extends JPanel implements CalendarView{
 		right.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				removeAll();
-				setN(getN() + 1);
-				display(getN());
-				repaint();
+				next();
 			}
 
 		});
-		
+
 		// Show the days on top
 		String[] days = { "S", "M", "T", "W", "T", "F", "S" };
 
 		for (int i = 0; i < 7; i++) {
-			add(new JLabel(days[i], SwingConstants.CENTER));
+			JLabel daysOfWeek = new JLabel(days[i], SwingConstants.CENTER);
+			daysOfWeek.setBackground(Color.WHITE);
+			daysOfWeek.setOpaque(true);
+			add(daysOfWeek);
 		}
 
 		// Creaing the calendar with each date as a button
@@ -146,55 +123,74 @@ public class SelectedMonthView extends JPanel implements CalendarView{
 				daysHolder[m][y] = new JButton();
 				daysHolder[m][y].setBackground(Color.WHITE);
 				daysHolder[m][y].setOpaque(true);
-				daysHolder[m][y].addActionListener(new ActionListener(){
+				daysHolder[m][y].addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						month = cal.getMonth().name(); 
+						month = cal.getMonth().name();
 						year = cal.getYear();
-						if(((JButton)e.getSource()).getText() == "") {
+
+						if (((JButton) e.getSource()).getText() == "") {
 							day = 0;
 						} else {
-							day = Integer.parseInt(((JButton)e.getSource()).getText());
+							day = Integer.parseInt(((JButton) e.getSource()).getText());
 						}
-						String thisMonth = getTodayDate().getMonth().name();
-						
-						if(highlighted != null) {
+
+						if (highlighted != null) {
 							highlighted.setBackground(Color.WHITE);
 							highlighted.setOpaque(true);
 							highlighted.setBorderPainted(true);
 						}
-						
-						if (thisMonth.compareTo(month) == 0 && getTodayDate().getYear() == year
-								&& getTodayDate().getDayOfMonth() == day) {
+
+						if (thisMonth.compareTo(month) == 0 && thisYear == year && todayDate == day) {
 							highlighted.setBackground(Color.BLUE);
 							highlighted.setOpaque(false);
 							highlighted.setBorderPainted(true);
-						} 
-						
-						if( (thisMonth.compareTo(month) == 0 && getTodayDate().getYear() == year
-								&& getTodayDate().getDayOfMonth() != day)){
+						}
+
+						if ((thisMonth.compareTo(month) == 0 && thisYear == year && todayDate != day)) {
 							highlighted = ((JButton) e.getSource());
 							highlighted.setBackground(Color.CYAN);
 							highlighted.setOpaque(true);
 							highlighted.setBorderPainted(false);
-						} 
-						
-						if(day == 0) {
+						}
+
+						if ((thisMonth.compareTo(month) == 0 && thisYear != year && todayDate != day)) {
+							highlighted = ((JButton) e.getSource());
+							highlighted.setBackground(Color.CYAN);
+							highlighted.setOpaque(true);
+							highlighted.setBorderPainted(false);
+						}
+
+						if ((thisMonth.compareTo(month) != 0 && thisYear == year && todayDate != day)) {
+							highlighted = ((JButton) e.getSource());
+							highlighted.setBackground(Color.CYAN);
+							highlighted.setOpaque(true);
+							highlighted.setBorderPainted(false);
+						}
+
+						if ((thisMonth.compareTo(month) != 0 && thisYear != year && todayDate != day)) {
+							highlighted = ((JButton) e.getSource());
+							highlighted.setBackground(Color.CYAN);
+							highlighted.setOpaque(true);
+							highlighted.setBorderPainted(false);
+						}
+
+						if (day == 0) {
 							highlighted.setBackground(Color.WHITE);
 							highlighted.setOpaque(false);
 							highlighted.setBorderPainted(true);
 						}
-						
+
 					}
-					
+
 				});
 				add(daysHolder[m][y]);
 			}
 		}
 
 		// First day of the month
-		cal = LocalDate.of(cal.getYear(), cal.getMonthValue(), 1);
-		String firstDay = cal.getDayOfWeek().name();
+		LocalDate cl = LocalDate.of(cal.getYear(), cal.getMonthValue(), 1);
+		String firstDay = cl.getDayOfWeek().name();
 
 		// Where to start for the first day of the month
 		int counter = 0;
@@ -236,6 +232,10 @@ public class SelectedMonthView extends JPanel implements CalendarView{
 		boolean sameYear = (cal.getYear() == thisYear);
 
 		while (i <= lengthOfMonth) {
+			if(i == 1) {
+				daysHolder[week][counter].setText("" + i);
+				daysHolder[week][counter].setForeground(Color.RED);
+			}
 			if (counter < 6 && i < 10 && i != today) {
 				daysHolder[week][counter].setText("" + i);
 				counter++;
@@ -341,28 +341,27 @@ public class SelectedMonthView extends JPanel implements CalendarView{
 				break;
 			}
 		}
-		
-	}
-	public LocalDate getTodayDate() {
-		return todayDate;
-	}
 
-	public void setTodayDate(LocalDate todayDate) {
-		this.todayDate = todayDate;
 	}
 
 	@Override
-	public void stateChanged(ChangeEvent e) {
-		
+	public void stateChanged(ChangeEvent arg0) {
+		this.display();
 	}
 
-	@Override
+	/**
+	 * Moves the selected date forwards by a month
+	 */
 	public void next() {
-		// TODO Auto-generated method stub
+		model.advanceSelectedDateByMonth(1);
+		this.display();
 	}
 
-	@Override
+	/**
+	 * Moves the selected date forwards by a month
+	 */
 	public void previous() {
-		// TODO Auto-generated method stub
+		model.advanceSelectedDateByMonth(-1);
+		this.display();
 	}
 }

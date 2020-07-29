@@ -1,17 +1,6 @@
 package calendar;
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -22,9 +11,9 @@ public class MonthView extends JPanel implements CalendarView {
 	private int lengthOfMonth;
 	private boolean sameMonth;
 	private boolean sameYear;
-	private static LocalDate cal;
-	private static String thisMonth;
-	private static int thisYear;
+	private LocalDate cal;
+	private String thisMonth;
+	private int thisYear;
 
 	/**
 	 * Constructor which updates the value of n and calls the display method to
@@ -44,20 +33,20 @@ public class MonthView extends JPanel implements CalendarView {
 		display();
 	}
 
-	public static String getThisMonth() {
+	public String getThisMonth() {
 		return thisMonth;
 	}
 
-	public static void setThisMonth(String thisMonth) {
-		MonthView.thisMonth = thisMonth;
+	public void setThisMonth(String thisMonth) {
+		this.thisMonth = thisMonth;
 	}
 
-	public static int getThisYear() {
+	public int getThisYear() {
 		return thisYear;
 	}
 
-	public static void setThisYear(int thisYear) {
-		MonthView.thisYear = thisYear;
+	public void setThisYear(int thisYear) {
+		this.thisYear = thisYear;
 	}
 	
 	/**
@@ -71,7 +60,6 @@ public class MonthView extends JPanel implements CalendarView {
 		// Get today's date and month
 		LocalDate cal = model.getSelectedDate();
 		int today = cal.getDayOfMonth();
-		int thisYear = cal.getYear();
 
 		// Creating the title and adding the left and right button for navigation
 		for (int i = 0; i < 7; i++) {
@@ -149,6 +137,10 @@ public class MonthView extends JPanel implements CalendarView {
 		sameYear = (cal.getYear() == this.getThisYear());
 		
 		while (i <= lengthOfMonth) {
+			if(i == 1) {
+				daysHolder[week][counter].setText("" + i);
+				daysHolder[week][counter].setForeground(Color.RED);
+			}
 			if (counter < 6 && i < 10 && i != today) {
 				daysHolder[week][counter].setText("" + i);
 				counter++;
@@ -262,6 +254,7 @@ public class MonthView extends JPanel implements CalendarView {
 	 */
 	public void next() {
 		model.advanceSelectedDateByMonth(1);
+		display();
 	}
 
 	/**
@@ -269,6 +262,7 @@ public class MonthView extends JPanel implements CalendarView {
 	 */
 	public void previous() {
 		model.advanceSelectedDateByMonth(-1);
+		display();
 	}
 
 }
