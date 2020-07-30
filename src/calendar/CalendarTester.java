@@ -40,6 +40,7 @@ public class CalendarTester {
 
 		final CalendarModel model = new CalendarModel();
 
+		final SelectedMonthView selectedMonthView = new SelectedMonthView(model);
 		final CreateView createView = new CreateView(model);
 		final DayView dayView = new DayView(model); 
 		final WeekView weekView = new WeekView(model); 
@@ -48,6 +49,7 @@ public class CalendarTester {
 		
 
 		// Attach views/change listeners to model
+		model.attach(selectedMonthView);
 		model.attach(dayView); 
 		model.attach(weekView); 
 		model.attach(monthView); 
@@ -98,7 +100,7 @@ public class CalendarTester {
 		final JButton weekButton = new JButton("Week");
 		final JButton monthButton = new JButton("Month");
 		final JButton agendaButton = new JButton("Agenda");
-		final JButton importFileButton = new JButton("Import File");
+		final JButton fromFileButton = new JButton("From File");
 
 
 		// Today action listener
@@ -209,11 +211,11 @@ public class CalendarTester {
 
 		});
 
-		// InputFile action listener
-		importFileButton.addActionListener(new ActionListener() {
+		// From File action listener
+		fromFileButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (FileImporter.importFile(model))
-					importFileButton.setEnabled(false);
+					fromFileButton.setEnabled(false);
 			}
 		});
 
@@ -222,13 +224,13 @@ public class CalendarTester {
 		changeViewNav.add(weekButton);
 		changeViewNav.add(monthButton);
 		changeViewNav.add(agendaButton);
-		changeViewNav.add(importFileButton);
+		changeViewNav.add(fromFileButton);
 
 		// Adding top-left panel to left half & top-right panel to right half
 		leftControls.add(currentViewNav, BorderLayout.NORTH);
 		rightControls.add(changeViewNav, BorderLayout.NORTH);
 
-		leftControls.add(new SelectedMonthView(model), BorderLayout.CENTER);
+		leftControls.add(selectedMonthView, BorderLayout.CENTER);
 
 		// Theme Panels at the top and bottom of frame
 		JPanel themePanelTop = new JPanel();
@@ -286,7 +288,6 @@ public class CalendarTester {
 					themePanelBottom.repaint();
 		        }
 		});
-		
 		
 		leftControls.add(themeSelector, BorderLayout.SOUTH);
 
