@@ -1,23 +1,21 @@
 package calendar;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.time.LocalDate;
 import java.util.TreeSet;
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 /**
- * 
+ * DayView has a model, now, events, and startDate. DayView will update the right-hand side of the GUI
+ * for the user to see the Day and events for the specific day.
+ * @author Alein Bartolome
+ * @version 1.5
+ * @copyright banSJamn
  * */
 public class DayView extends JPanel implements CalendarView{
 	
@@ -38,6 +36,7 @@ public class DayView extends JPanel implements CalendarView{
 	/**
 	 * Creates the JComponents for the GUI of the calendar and calls displayEvents() to add the events for the
 	 * specific day
+	 * @param date 
 	 * */
 	public void display(LocalDate date) {
 		// Clear old components
@@ -92,6 +91,7 @@ public class DayView extends JPanel implements CalendarView{
 	
 	/**
 	 * Method stores all the events into a TreeSet and places the events into a label and returns a panel.
+	 * @return newPanel a panel with the events from getEvents()
 	 * */
 	public JPanel displayEvents() {
 		startDate = LocalDate.of(now.getYear(), now.getMonthValue(), now.getDayOfMonth());
@@ -107,14 +107,9 @@ public class DayView extends JPanel implements CalendarView{
 		JPanel newPanel = new JPanel();
 
 		for(LocalDate day : dates) {
-			boolean noEvents = true;
 			for(Event e : events) {
 				if(e.occursOn(day)) {
-					if(noEvents) {
-						eventDisplay = eventDisplay + "\n" + day + "\n";
-					}
-					noEvents = false;
-					eventDisplay = eventDisplay + "  " + e.toStringForDayView() + "\n";
+					eventDisplay = eventDisplay + e.toStringForDayView() + "\n";
 				}
 			}
 		}// end of for loop
