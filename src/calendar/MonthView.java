@@ -1,23 +1,10 @@
 package calendar;
-
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Scanner;
 import java.awt.*;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 
-/**
- * This class creates the MonthView. It has the whole month's
- * calendar along with the events for each day.
- * @author aryanmaheshwari
- * @version 7/29/20
- */
 public class MonthView extends JPanel implements CalendarView {
 	// Private instance variable used to navigate between months
 	private CalendarModel model;
@@ -33,7 +20,7 @@ public class MonthView extends JPanel implements CalendarView {
 	 * display the calendar.
 	 * 
 	 * @param n is the month you want to show (either before or after the current
-	 *          month)
+	 * month)
 	 */
 	public MonthView(CalendarModel m) {
 		this.model = m;
@@ -61,7 +48,7 @@ public class MonthView extends JPanel implements CalendarView {
 	public void setThisYear(int thisYear) {
 		this.thisYear = thisYear;
 	}
-
+	
 	/**
 	 * Creates the calendar. The method takes in the number of months before or
 	 * after the current month and creates an updated calendar.
@@ -71,7 +58,7 @@ public class MonthView extends JPanel implements CalendarView {
 		this.removeAll();
 		this.revalidate();
 		// Get today's date and month
-		cal = model.getSelectedDate();
+		LocalDate cal = model.getSelectedDate();
 		int today = cal.getDayOfMonth();
 
 		// Creating the title and adding the left and right button for navigation
@@ -148,32 +135,9 @@ public class MonthView extends JPanel implements CalendarView {
 		lengthOfMonth = cal.lengthOfMonth();
 		sameMonth = (cal.getMonth().name().compareTo(this.getThisMonth()) == 0);
 		sameYear = (cal.getYear() == this.getThisYear());
-
-		ArrayList<String> data = new ArrayList<String>();
-		try {
-			FileReader fr = new FileReader("/Users/aryanmaheshwari/eclipse-workspace/banSJamn-calendar/src/input.txt");
-			BufferedReader br = new BufferedReader(fr);
-			String line;
-			while ((line = br.readLine()) != null) {
-				data.add(line);
-			}
-			br.close();
-			fr.close();
-		} catch (FileNotFoundException f) {
-			// If the file does not exist, handle the exception
-			f.printStackTrace();
-		} catch (java.io.IOException e) {
-			// If there is any error in the input, handle the exception
-			e.printStackTrace();
-		}
-
-		String[] info = data.get(0).split(";");
-		for (int k = 0; k < data.size(); k++) {
-			info = data.get(k).split(";");
-		}
-
+		
 		while (i <= lengthOfMonth) {
-			if (i == 1) {
+			if(i == 1) {
 				daysHolder[week][counter].setText("" + i);
 				daysHolder[week][counter].setForeground(Color.RED);
 			}
@@ -191,7 +155,7 @@ public class MonthView extends JPanel implements CalendarView {
 				i++;
 			} else if (counter < 6 && i < 10 && i == today && sameMonth && sameYear) {
 				daysHolder[week][counter].setText("" + i);
-				// today
+				//today
 				daysHolder[week][counter].setForeground(Color.BLUE);
 				counter++;
 				i++;
@@ -212,7 +176,7 @@ public class MonthView extends JPanel implements CalendarView {
 				week++;
 			} else if (counter == 6 && i < 10 && i == today && sameMonth && sameYear) {
 				daysHolder[week][counter].setText("" + i);
-				// today
+				//today
 				daysHolder[week][counter].setForeground(Color.BLUE);
 				counter = 0;
 				i++;
@@ -231,7 +195,7 @@ public class MonthView extends JPanel implements CalendarView {
 				i++;
 			} else if (counter < 6 && i >= 10 && i < lengthOfMonth && i == today && sameMonth && sameYear) {
 				daysHolder[week][counter].setText("" + i);
-				// today
+				//today
 				daysHolder[week][counter].setForeground(Color.BLUE);
 				counter++;
 				i++;
@@ -252,7 +216,7 @@ public class MonthView extends JPanel implements CalendarView {
 				week++;
 			} else if (counter == 6 && i >= 10 && i < lengthOfMonth && i == today && sameMonth && sameYear) {
 				daysHolder[week][counter].setText("" + i);
-				// today
+				//today
 				daysHolder[week][counter].setForeground(Color.BLUE);
 				counter = 0;
 				i++;
@@ -268,7 +232,7 @@ public class MonthView extends JPanel implements CalendarView {
 				break;
 			} else if (counter == 6 && i >= 10 && i == lengthOfMonth && i == today && sameMonth && sameYear) {
 				daysHolder[week][counter].setText("" + i);
-				// today
+				//today
 				daysHolder[week][counter].setForeground(Color.BLUE);
 				counter++;
 				i++;
@@ -278,39 +242,6 @@ public class MonthView extends JPanel implements CalendarView {
 				break;
 			}
 		}
-
-		/*i = 1;
-		week = 0;
-		boolean equalYear = (cal.getYear() == Integer.parseInt(info[1]));
-		System.out.println(equalYear);
-		boolean equalStartMonth = (cal.getMonth().getValue() == Integer.parseInt(info[2]));
-		boolean equalLastMonth = (cal.getMonth().getValue() == Integer.parseInt(info[3]));
-		while (i <= lengthOfMonth) {
-			if (equalYear && (equalStartMonth || equalLastMonth)) {
-				if (info[5].contains("S")) {
-					daysHolder[week][0].setText(daysHolder[week][0].getText() + "\n" + info[1]);
-				}
-				if (info[5].contains("M")) {
-					daysHolder[week][1].setText(daysHolder[week][1].getText() + "\n" + info[1]);
-				}
-				if (info[5].contains("T")) {
-					daysHolder[week][2].setText(daysHolder[week][2].getText() + "\n" + info[1]);
-				}
-				if (info[5].contains("W")) {
-					daysHolder[week][3].setText(daysHolder[week][3].getText() + "\n" + info[1]);
-				}
-				if (info[5].contains("H")) {
-					daysHolder[week][4].setText(daysHolder[week][4].getText() + "\n" + info[1]);
-				}
-				if (info[5].contains("F")) {
-					daysHolder[week][5].setText(daysHolder[week][5].getText() + "\n" + info[1]);
-				}
-				if (info[5].contains("A")) {
-					daysHolder[week][6].setText(daysHolder[week][6].getText() + "\n" + info[1]);
-				}
-			}
-			i++;
-		}*/
 	}
 
 	@Override
