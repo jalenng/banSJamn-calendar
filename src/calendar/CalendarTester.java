@@ -18,6 +18,8 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  * Calendar Project
@@ -47,7 +49,12 @@ public class CalendarTester {
 		final MonthView monthView = new MonthView(model);
 		final AgendaView agendaView = new AgendaView(model);
 		
-
+		try {
+			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
 		// Attach views/change listeners to model
 		model.attach(selectedMonthView);
 		model.attach(dayView); 
