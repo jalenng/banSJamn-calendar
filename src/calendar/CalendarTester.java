@@ -60,6 +60,7 @@ public class CalendarTester {
 		model.attach(dayView); 
 		model.attach(weekView); 
 		model.attach(monthView); 
+		model.attach(agendaView);
 
 		final JFrame frame = new JFrame();
 		frame.setTitle("Calendar");
@@ -177,7 +178,7 @@ public class CalendarTester {
 			public void actionPerformed(ActionEvent arg0) {
 				rightControls.removeAll();
 				rightControls.add(changeViewNav, BorderLayout.NORTH);
-				rightControls.add(dayView, BorderLayout.WEST);
+				rightControls.add(dayView, BorderLayout.CENTER);
 				rightControls.revalidate();
 				rightControls.repaint();	
 			}		
@@ -188,7 +189,7 @@ public class CalendarTester {
 			public void actionPerformed(ActionEvent arg0) {
 				rightControls.removeAll();
 				rightControls.add(changeViewNav, BorderLayout.NORTH);
-				rightControls.add(weekView, BorderLayout.WEST);
+				rightControls.add(weekView, BorderLayout.CENTER);
 				rightControls.revalidate();
 				rightControls.repaint();	
 			}		
@@ -209,9 +210,9 @@ public class CalendarTester {
 		agendaButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				rightControls.removeAll();
+				agendaView.setNewInterval(true);
 				rightControls.add(changeViewNav, BorderLayout.NORTH);
 				rightControls.add(agendaView, BorderLayout.CENTER);
-				agendaView.inputIntervalView();
 				rightControls.revalidate();
 				rightControls.repaint();
 			}
@@ -236,6 +237,7 @@ public class CalendarTester {
 		// Adding top-left panel to left half & top-right panel to right half
 		leftControls.add(currentViewNav, BorderLayout.NORTH);
 		rightControls.add(changeViewNav, BorderLayout.NORTH);
+		rightControls.add(dayView, BorderLayout.CENTER);
 
 		leftControls.add(selectedMonthView, BorderLayout.CENTER);
 

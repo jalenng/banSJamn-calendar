@@ -37,6 +37,7 @@ public class AgendaView extends JPanel implements CalendarView {
 	private TreeSet<Event> events;
 	private LocalDate startDate;
 	private LocalDate endDate;
+	private boolean newInterval;
 	
 	
 	/**
@@ -47,13 +48,21 @@ public class AgendaView extends JPanel implements CalendarView {
 		this.setLayout(new BorderLayout());
 		this.model = m;
 		events = m.getEvents();
+		newInterval = true;
 	}
 	
 	 @Override
      public void paintComponent(Graphics g) {
          super.paintComponent(g);
+         if(newInterval) {
+        	 inputIntervalView();
+         }
      }
 	
+	 
+	 public void setNewInterval(boolean n) {
+		 newInterval = n;
+	 }
 	 
 	 public void inputIntervalView() {
 		 
@@ -92,6 +101,7 @@ public class AgendaView extends JPanel implements CalendarView {
 							Integer.parseInt(endArray[0]), 
 							Integer.parseInt(endArray[1]));
 					
+					 setNewInterval(false);
 					 displayAgenda();
 				 } 
 				 catch (DateTimeException exception) {
@@ -216,6 +226,12 @@ public class AgendaView extends JPanel implements CalendarView {
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		events = model.getEvents();
+		if(newInterval) {
+			repaint();
+		}
+		else {
+			displayAgenda();
+		}
 	}
 
 
