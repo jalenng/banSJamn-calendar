@@ -286,7 +286,7 @@ public class WeekView extends JPanel implements CalendarView{
 			JScrollPane scroll = new JScrollPane(myTextArea);
 			scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 			scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-			scroll.setPreferredSize(new Dimension(67, 300));
+			scroll.setPreferredSize(new Dimension(105, 300));
 			
 			// DON'T NEED THIS LINE ANYMORE BECAUSE TEXT AREA IS 
 			// ADDED ALONG WITH SCROLL
