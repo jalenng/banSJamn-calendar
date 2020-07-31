@@ -56,7 +56,7 @@ public class CalendarTester {
 
 		final JFrame frame = new JFrame();
 		frame.setTitle("Calendar");
-		frame.setMinimumSize(new Dimension(900, 500));
+		frame.setMinimumSize(new Dimension(1100, 500));
 
 		// Split JFrame into two halves
 		final JPanel leftControls = new JPanel();

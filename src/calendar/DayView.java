@@ -3,12 +3,14 @@ package calendar;
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.time.LocalDate;
 import java.util.TreeSet;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 /**
  * DayView has a model, now, events, and startDate. DayView will update the right-hand side of the GUI
@@ -60,12 +62,15 @@ public class DayView extends JPanel implements CalendarView{
 		
 		JPanel dayPanel = new JPanel();	
 		//dayPanel.setPreferredSize(new Dimension(100,50));
-		dayPanel.setLayout(new GridLayout(3,1));
+		dayPanel.setLayout(new GridLayout(4,1));
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		// current day label
 		JLabel dayNumber = new JLabel(Integer.toString(day), SwingConstants.CENTER);	
 
+		// ADDED A PADDING FROM THE EDGES
+		setBorder(new EmptyBorder(10, 15, 10, 10));
+		
 		// add all the components into the panel together
 		c.gridx = 0;
 		c.gridy = 0;
@@ -73,27 +78,43 @@ public class DayView extends JPanel implements CalendarView{
 		
 		c.gridx = 0;
 		c.gridy = 1;
+		// CHANGED TO STAY ON THE LEFT  
+		dayName.setHorizontalAlignment(JLabel.LEFT);
 		dayPanel.add(dayName, c);
 		
 		c.gridx = 0;
 		c.gridy = 2;
+		// CHANGED TO STAY ON THE LEFT
+		dayNumber.setHorizontalAlignment(JLabel.LEFT);
 		dayPanel.add(dayNumber, c);
 		
-		c.gridx = 0;
-		c.gridy = 0;
+		// DONT NEED C FOR BORDERLAYOUT
+//		c.gridx = 0;
+//		c.gridy = 0;
 		this.add(dayPanel, BorderLayout.NORTH);
 		
+		
 		// insert method to call for "events"
-		c.gridx = 0;
-		c.gridy = 1;
-		this.add(displayEvents(), BorderLayout.WEST);
+		
+		// DONT NEED C FOR BORDERLAYOUT
+//		c.gridx = 0;
+//		c.gridy = 1;
+		
+		//CHANGED TO BORDERLAYOUT CENTER
+		this.add(displayEvents(), BorderLayout.CENTER);
 	}
 	
+	
+	// CHANGED THIS TO RETURN A JTEXTAREA BECAUSE THAT DISPLAYS MORE
+	// NICELY THAN ADDING A JPANEL TO THE MAIN PANEL
+	//
+	// REMEMBER TO UPDATE THE JAVADOC IF THIS CHANGE IS KEPT PLS
+	//
 	/**
 	 * Method stores all the events into a TreeSet and places the events into a label and returns a panel.
 	 * @return newPanel a panel with the events from getEvents()
 	 * */
-	public JPanel displayEvents() {
+	public JTextArea displayEvents() {
 		startDate = LocalDate.of(now.getYear(), now.getMonthValue(), now.getDayOfMonth());
 		JTextArea eventsLabel = new JTextArea();
 		TreeSet<LocalDate> dates = new TreeSet<LocalDate>();
@@ -104,7 +125,9 @@ public class DayView extends JPanel implements CalendarView{
 		}
 		
 		String eventDisplay = "";
-		JPanel newPanel = new JPanel();
+		
+		// NO NEED FOR JPANEL 
+//		JPanel newPanel = new JPanel();
 
 		for(LocalDate day : dates) {
 			for(Event e : events) {
@@ -114,8 +137,10 @@ public class DayView extends JPanel implements CalendarView{
 			}
 		}// end of for loop
 		eventsLabel.setText(eventDisplay);
-		newPanel.add(eventsLabel);
-		return newPanel;
+		
+		// NO NEED FOR JPANEL
+//		newPanel.add(eventsLabel);
+		return eventsLabel;
 	}
 	
 	public void stateChanged(ChangeEvent arg0) {

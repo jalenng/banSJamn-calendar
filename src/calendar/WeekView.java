@@ -1,14 +1,21 @@
 package calendar;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.time.LocalDate;
 import java.util.TreeSet;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 /**
@@ -46,7 +53,12 @@ public class WeekView extends JPanel implements CalendarView{
 		this.removeAll();
 		this.revalidate();
 		now = model.getSelectedDate();
-		this.setLayout(new GridLayout(2,1));
+
+		// CHANGED TO BORDERLAYOUT
+//		this.setLayout(new GridLayout(2,1));
+		this.setLayout(new BorderLayout());
+		
+		
 		// variables to get the month, day, year, and day of the week
 		String currentMonth = now.getMonth().name();
 		int day = now.getDayOfMonth();
@@ -67,31 +79,46 @@ public class WeekView extends JPanel implements CalendarView{
 		}
 
 		JPanel firstPanel = new JPanel();
-		firstPanel.setLayout(new GridLayout(1,1));
+
+		// COMMENTED THIS OUT BECAUSE IT'S NOT NECESSARY
+//		firstPanel.setLayout(new GridLayout(1,1));
 		GridBagConstraints c = new GridBagConstraints();
 
-		firstPanel.add(dayTitle,c);
+		// REMOVED C PARAMETER
+		firstPanel.add(dayTitle);
 
 		// second panel holds the days of the week
 		JPanel secondPanel = new JPanel();
-		secondPanel.setLayout(new GridLayout(3,7));
-		String[] days = {"SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"};
-		for(int i = 0; i < days.length; i++) {
-			JLabel myLabel = new JLabel(days[i]);
-			myLabel.setHorizontalAlignment(SwingConstants.CENTER);
-			myLabel.setBorder(BorderFactory.createMatteBorder(1, 1, 0, 1, Color.BLACK));
-			secondPanel.add(myLabel);
-		}
+		secondPanel.setLayout(new GridLayout(2, 7));
+		
+		// COMMENTED THIS OUT AND MOVED IT TO ADD_DAY_NUMBER METHOD
+//		c.gridx = 0;
+//		c.gridy = 0;
+//		c.fill = GridBagConstraints.HORIZONTAL;
+//		String[] days = {"SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"};
+//		for(int i = 0; i < days.length; i++) {
+//			//
+//			//
+//			c.gridx = i;
+//			//
+//			// 
+//			
+//			JLabel myLabel = new JLabel(days[i]);
+//			myLabel.setHorizontalAlignment(SwingConstants.CENTER);
+//			myLabel.setBorder(BorderFactory.createMatteBorder(1, 1, 0, 1, Color.BLACK));
+//			secondPanel.add(myLabel, c);
+//		}
 		c.gridx = 0;
 		c.gridy = 0;
+		
 		c.fill = GridBagConstraints.HORIZONTAL;
-		this.add(firstPanel,c);
-		//secondPanel.setBorder(BorderFac);
+		this.add(firstPanel,BorderLayout.NORTH);
+//		secondPanel.setBorder(BorderFac);
 		c.gridx=0;
 		c.gridy=1;
 		displayDayView(secondPanel, c, giveLocalDate());
 		displayEvents(giveLocalDate(), c, secondPanel);
-		this.add(secondPanel,c);
+		this.add(secondPanel,BorderLayout.CENTER);
 		revalidate();
 		repaint();
 	}
@@ -177,26 +204,30 @@ public class WeekView extends JPanel implements CalendarView{
 	 * */
 	public void addDayNumber(LocalDate day, JPanel secondPanel, GridBagConstraints c) {
 		LocalDate today = model.getSelectedDate();
-		c.gridy = 1;
+		c.gridy = 0;
 		c.fill = GridBagConstraints.CENTER;
-		
+				
 		for (int i = 0; i < 7; i++) {
 			if(day.getDayOfMonth() == today.getDayOfMonth()) {
 				c.gridx = i;
-				JLabel todayLabel = new JLabel(Integer.toString(day.getDayOfMonth()));
+				// ADDED THE WEEKDAY AND DAY NUMBER 
+				String weekdayAndDateText = "<html>" + day.getDayOfWeek() + "<br>" + Integer.toString(day.getDayOfMonth()) +"</html>";
+				JLabel todayLabel = new JLabel(weekdayAndDateText);
 				todayLabel.setForeground(Color.RED);
 				todayLabel.setBackground(Color.BLUE);
 				todayLabel.setHorizontalAlignment(SwingConstants.CENTER);
-				todayLabel.setBorder(BorderFactory.createMatteBorder(0, 1, 1, 1, Color.BLACK));
+				todayLabel.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
 				secondPanel.add(todayLabel,c);
 				
 				day = day.plusDays(1);
 			}
 			else {
 				c.gridx = i;
-				JLabel dayNumberLabel = new JLabel(Integer.toString(day.getDayOfMonth()));
+				// ADDED THE WEEKDAY AND DAY NUMBER 
+				String weekdayAndDateText = "<html>" + day.getDayOfWeek() + "<br>" + Integer.toString(day.getDayOfMonth()) +"</html>";
+				JLabel dayNumberLabel = new JLabel(weekdayAndDateText);
 				dayNumberLabel.setHorizontalAlignment(SwingConstants.CENTER);
-				dayNumberLabel.setBorder(BorderFactory.createMatteBorder(0, 1, 1, 1, Color.BLACK));
+				dayNumberLabel.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
 				secondPanel.add(dayNumberLabel,c);
 				day = day.plusDays(1);
 			}
@@ -215,8 +246,9 @@ public class WeekView extends JPanel implements CalendarView{
 		endDate = startDate.plusDays(7);
 		TreeSet<LocalDate> dates = new TreeSet<LocalDate>();
 		LocalDate current = startDate;		
-		c.gridy=2;
 		c.gridx=0;
+		c.gridy=1;
+
 		while(!current.equals(endDate)) {
 			dates.add(current);
 			current = current.plusDays(1);
@@ -229,14 +261,37 @@ public class WeekView extends JPanel implements CalendarView{
 		for(LocalDate day : dates) {
 			for(Event e : events) {
 				if(e.occursOn(day)) {
-					c.gridx=i;
+					// COMMENTED THIS OUT BECAUSE IT ISN'T NEEDED HERE
+//					c.gridx=i;
 					eventDisplay = eventDisplay + e.toStringForDayView() + "\n";
 				}// end of if statement
 			}
+			
+			// MOVED 'C.GRIDX' FROM FOR-IF LOOP ABOVE TO HERE
+			c.gridx = i;
+			
 			c.fill = GridBagConstraints.BOTH;
 			JTextArea myTextArea = new JTextArea(eventDisplay);
-			myTextArea.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
-			secondPanel.add(myTextArea,c);
+			
+			// ADDING LINE WRAP IS ANOTHER WAY TO DO IT, SO IMA LEAVE THIS
+			// HERE FOR EASY TESTING
+//			myTextArea.setLineWrap(true);
+//			myTextArea.setWrapStyleWord(true);
+			
+			// BORDER AUTOMATICALLY SHOWS UP SO THIS IS COMMENTED OUT
+//			myTextArea.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
+			
+			
+			// ADDED SCROLL TO THE EVENTS JTEXTFIELD
+			JScrollPane scroll = new JScrollPane(myTextArea);
+			scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+			scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+			scroll.setPreferredSize(new Dimension(67, 300));
+			
+			// DON'T NEED THIS LINE ANYMORE BECAUSE TEXT AREA IS 
+			// ADDED ALONG WITH SCROLL
+//			secondPanel.add(myTextArea,c);
+			secondPanel.add(scroll, c);
 			
 			// resets eventDisplay to be empty for the next day
 			eventDisplay = "";
