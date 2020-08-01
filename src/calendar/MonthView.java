@@ -1,4 +1,5 @@
 package calendar;
+
 import java.time.LocalDate;
 import java.util.TreeSet;
 import java.awt.*;
@@ -7,16 +8,17 @@ import javax.swing.event.ChangeEvent;
 import calendar.Event;
 
 /**
- * This class creates the month view. It presents all the events
- * in the month. Today's date is highlighted in blue. The first
- * day of the month is highlighted in red.
+ * This class creates the month view. It presents all the events in the month.
+ * Today's date is highlighted in blue. The first day of the month is
+ * highlighted in red.
  * 
- * @author aryanmaheshwari
+ * @author Aryan Maheshwari
  * @version 7/31/20
  * @copyright banSJamn
  */
 
 public class MonthView extends JPanel implements CalendarView {
+
 	// Private instance variable used to navigate between months
 	private CalendarModel model;
 	private int lengthOfMonth;
@@ -32,7 +34,7 @@ public class MonthView extends JPanel implements CalendarView {
 	 * display the calendar.
 	 * 
 	 * @param n is the month you want to show (either before or after the current
-	 * month)
+	 *          month)
 	 */
 	public MonthView(CalendarModel m) {
 		this.model = m;
@@ -46,22 +48,42 @@ public class MonthView extends JPanel implements CalendarView {
 		display();
 	}
 
+	/**
+	 * Gives this month
+	 * 
+	 * @return thisMonth
+	 */
 	public String getThisMonth() {
 		return thisMonth;
 	}
 
+	/**
+	 * Set this month
+	 * 
+	 * @param thisMonth
+	 */
 	public void setThisMonth(String thisMonth) {
 		this.thisMonth = thisMonth;
 	}
 
+	/**
+	 * Gives this year
+	 * 
+	 * @return thisYear
+	 */
 	public int getThisYear() {
 		return thisYear;
 	}
 
+	/**
+	 * Set this year
+	 * 
+	 * @param thisMonth
+	 */
 	public void setThisYear(int thisYear) {
 		this.thisYear = thisYear;
 	}
-	
+
 	/**
 	 * Creates the calendar. The method takes in the number of months before or
 	 * after the current month and creates an updated calendar.
@@ -101,7 +123,8 @@ public class MonthView extends JPanel implements CalendarView {
 		for (int m = 0; m < 6; m++) {
 			for (int y = 0; y < 7; y++) {
 				daysHolder[m][y] = new JLabel();
-				JScrollPane scroller = new JScrollPane(daysHolder[m][y], JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+				JScrollPane scroller = new JScrollPane(daysHolder[m][y], JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+						JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 				daysHolder[m][y].setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 				add(scroller);
 			}
@@ -149,115 +172,140 @@ public class MonthView extends JPanel implements CalendarView {
 		lengthOfMonth = cal.lengthOfMonth();
 		sameMonth = (cal.getMonth().name().compareTo(this.getThisMonth()) == 0);
 		sameYear = (cal.getYear() == this.getThisYear());
-		
+
 		while (i <= lengthOfMonth) {
-			if(i == 1) {
-				daysHolder[week][counter].setText("<html>" + i + "<br>" +  getEvents(LocalDate.of(cal.getYear(), cal.getMonth(), i)) + "</html>");
+			if (i == 1) {
+				daysHolder[week][counter].setText(
+						"<html>" + i + "<br>" + getEvents(LocalDate.of(cal.getYear(), cal.getMonth(), i)) + "</html>");
 				daysHolder[week][counter].setForeground(Color.RED);
 			}
 			if (counter < 6 && i < 10 && i != today) {
-				daysHolder[week][counter].setText("<html>" + i + "<br>" +  getEvents(LocalDate.of(cal.getYear(), cal.getMonth(), i)) + "</html>");
+				daysHolder[week][counter].setText(
+						"<html>" + i + "<br>" + getEvents(LocalDate.of(cal.getYear(), cal.getMonth(), i)) + "</html>");
 				counter++;
 				i++;
 			} else if (counter < 6 && i < 10 && i == today && !sameMonth) {
-				daysHolder[week][counter].setText("<html>" + i + "<br>" +  getEvents(LocalDate.of(cal.getYear(), cal.getMonth(), i)) + "</html>");
+				daysHolder[week][counter].setText(
+						"<html>" + i + "<br>" + getEvents(LocalDate.of(cal.getYear(), cal.getMonth(), i)) + "</html>");
 				counter++;
 				i++;
 			} else if (counter < 6 && i < 10 && i == today && !sameMonth && !sameYear) {
-				daysHolder[week][counter].setText("<html>" + i + "<br>" +  getEvents(LocalDate.of(cal.getYear(), cal.getMonth(), i)) + "</html>");
+				daysHolder[week][counter].setText(
+						"<html>" + i + "<br>" + getEvents(LocalDate.of(cal.getYear(), cal.getMonth(), i)) + "</html>");
 				counter++;
 				i++;
 			} else if (counter < 6 && i < 10 && i == today && sameMonth && sameYear) {
-				daysHolder[week][counter].setText("<html>" + i + "<br>" +  getEvents(LocalDate.of(cal.getYear(), cal.getMonth(), i)) + "</html>");
-				//today
+				daysHolder[week][counter].setText(
+						"<html>" + i + "<br>" + getEvents(LocalDate.of(cal.getYear(), cal.getMonth(), i)) + "</html>");
+				// today
 				daysHolder[week][counter].setForeground(Color.BLUE);
 				counter++;
 				i++;
 			} else if (counter == 6 && i < 10 && i != today) {
-				daysHolder[week][counter].setText("<html>" + i + "<br>" +  getEvents(LocalDate.of(cal.getYear(), cal.getMonth(), i)) + "</html>");
+				daysHolder[week][counter].setText(
+						"<html>" + i + "<br>" + getEvents(LocalDate.of(cal.getYear(), cal.getMonth(), i)) + "</html>");
 				counter = 0;
 				i++;
 				week++;
 			} else if (counter == 6 && i < 10 && i == today && !sameMonth) {
-				daysHolder[week][counter].setText("<html>" + i + "<br>" +  getEvents(LocalDate.of(cal.getYear(), cal.getMonth(), i)) + "</html>");
+				daysHolder[week][counter].setText(
+						"<html>" + i + "<br>" + getEvents(LocalDate.of(cal.getYear(), cal.getMonth(), i)) + "</html>");
 				counter = 0;
 				i++;
 				week++;
 			} else if (counter == 6 && i < 10 && i == today && sameMonth && !sameYear) {
-				daysHolder[week][counter].setText("<html>" + i + "<br>" +  getEvents(LocalDate.of(cal.getYear(), cal.getMonth(), i)) + "</html>");
+				daysHolder[week][counter].setText(
+						"<html>" + i + "<br>" + getEvents(LocalDate.of(cal.getYear(), cal.getMonth(), i)) + "</html>");
 				counter = 0;
 				i++;
 				week++;
 			} else if (counter == 6 && i < 10 && i == today && sameMonth && sameYear) {
-				daysHolder[week][counter].setText("<html>" + i + "<br>" +  getEvents(LocalDate.of(cal.getYear(), cal.getMonth(), i)) + "</html>");
-				//today
+				daysHolder[week][counter].setText(
+						"<html>" + i + "<br>" + getEvents(LocalDate.of(cal.getYear(), cal.getMonth(), i)) + "</html>");
+				// today
 				daysHolder[week][counter].setForeground(Color.BLUE);
 				counter = 0;
 				i++;
 				week++;
 			} else if (counter < 6 && i >= 10 && i < lengthOfMonth && i != today) {
-				daysHolder[week][counter].setText("<html>" + i + "<br>" +  getEvents(LocalDate.of(cal.getYear(), cal.getMonth(), i)) + "</html>");
+				daysHolder[week][counter].setText(
+						"<html>" + i + "<br>" + getEvents(LocalDate.of(cal.getYear(), cal.getMonth(), i)) + "</html>");
 				counter++;
 				i++;
 			} else if (counter < 6 && i >= 10 && i < lengthOfMonth && i == today && !sameMonth) {
-				daysHolder[week][counter].setText("<html>" + i + "<br>" +  getEvents(LocalDate.of(cal.getYear(), cal.getMonth(), i)) + "</html>");
+				daysHolder[week][counter].setText(
+						"<html>" + i + "<br>" + getEvents(LocalDate.of(cal.getYear(), cal.getMonth(), i)) + "</html>");
 				counter++;
 				i++;
 			} else if (counter < 6 && i >= 10 && i < lengthOfMonth && i == today && sameMonth && !sameYear) {
-				daysHolder[week][counter].setText("<html>" + i + "<br>" +  getEvents(LocalDate.of(cal.getYear(), cal.getMonth(), i)) + "</html>");
+				daysHolder[week][counter].setText(
+						"<html>" + i + "<br>" + getEvents(LocalDate.of(cal.getYear(), cal.getMonth(), i)) + "</html>");
 				counter++;
 				i++;
 			} else if (counter < 6 && i >= 10 && i < lengthOfMonth && i == today && sameMonth && sameYear) {
-				daysHolder[week][counter].setText("<html>" + i + "<br>" +  getEvents(LocalDate.of(cal.getYear(), cal.getMonth(), i)) + "</html>");
-				//today
+				daysHolder[week][counter].setText(
+						"<html>" + i + "<br>" + getEvents(LocalDate.of(cal.getYear(), cal.getMonth(), i)) + "</html>");
+				// today
 				daysHolder[week][counter].setForeground(Color.BLUE);
 				counter++;
 				i++;
 			} else if (counter == 6 && i >= 10 && i < lengthOfMonth && i != today) {
-				daysHolder[week][counter].setText("<html>" + i + "<br>" +  getEvents(LocalDate.of(cal.getYear(), cal.getMonth(), i)) + "</html>");
+				daysHolder[week][counter].setText(
+						"<html>" + i + "<br>" + getEvents(LocalDate.of(cal.getYear(), cal.getMonth(), i)) + "</html>");
 				counter = 0;
 				i++;
 				week++;
 			} else if (counter == 6 && i >= 10 && i < lengthOfMonth && i == today && !sameMonth) {
-				daysHolder[week][counter].setText("<html>" + i + "<br>" +  getEvents(LocalDate.of(cal.getYear(), cal.getMonth(), i)) + "</html>");
+				daysHolder[week][counter].setText(
+						"<html>" + i + "<br>" + getEvents(LocalDate.of(cal.getYear(), cal.getMonth(), i)) + "</html>");
 				counter = 0;
 				i++;
 				week++;
 			} else if (counter == 6 && i >= 10 && i < lengthOfMonth && i == today && sameMonth && !sameYear) {
-				daysHolder[week][counter].setText("<html>" + i + "<br>" +  getEvents(LocalDate.of(cal.getYear(), cal.getMonth(), i)) + "</html>");
+				daysHolder[week][counter].setText(
+						"<html>" + i + "<br>" + getEvents(LocalDate.of(cal.getYear(), cal.getMonth(), i)) + "</html>");
 				counter = 0;
 				i++;
 				week++;
 			} else if (counter == 6 && i >= 10 && i < lengthOfMonth && i == today && sameMonth && sameYear) {
-				daysHolder[week][counter].setText("<html>" + i + "<br>" +  getEvents(LocalDate.of(cal.getYear(), cal.getMonth(), i)) + "</html>");
-				//today
+				daysHolder[week][counter].setText(
+						"<html>" + i + "<br>" + getEvents(LocalDate.of(cal.getYear(), cal.getMonth(), i)) + "</html>");
+				// today
 				daysHolder[week][counter].setForeground(Color.BLUE);
 				counter = 0;
 				i++;
 				week++;
 			} else if (counter <= 6 && i >= 10 && i == lengthOfMonth && i != today) {
-				daysHolder[week][counter].setText("<html>" + i + "<br>" +  getEvents(LocalDate.of(cal.getYear(), cal.getMonth(), i)) + "</html>");
+				daysHolder[week][counter].setText(
+						"<html>" + i + "<br>" + getEvents(LocalDate.of(cal.getYear(), cal.getMonth(), i)) + "</html>");
 				break;
 			} else if (counter <= 6 && i >= 10 && i == lengthOfMonth && i == today && !sameMonth) {
-				daysHolder[week][counter].setText("<html>" + i + "<br>" +  getEvents(LocalDate.of(cal.getYear(), cal.getMonth(), i)) + "</html>");
+				daysHolder[week][counter].setText(
+						"<html>" + i + "<br>" + getEvents(LocalDate.of(cal.getYear(), cal.getMonth(), i)) + "</html>");
 				break;
 			} else if (counter <= 6 && i >= 10 && i == lengthOfMonth && i == today && sameMonth && !sameYear) {
-				daysHolder[week][counter].setText("<html>" + i + "<br>" +  getEvents(LocalDate.of(cal.getYear(), cal.getMonth(), i)) + "</html>");
+				daysHolder[week][counter].setText(
+						"<html>" + i + "<br>" + getEvents(LocalDate.of(cal.getYear(), cal.getMonth(), i)) + "</html>");
 				break;
 			} else if (counter <= 6 && i >= 10 && i == lengthOfMonth && i == today && sameMonth && sameYear) {
-				daysHolder[week][counter].setText("<html>" + i + "<br>" +  getEvents(LocalDate.of(cal.getYear(), cal.getMonth(), i)) + "</html>");
-				//today
+				daysHolder[week][counter].setText(
+						"<html>" + i + "<br>" + getEvents(LocalDate.of(cal.getYear(), cal.getMonth(), i)) + "</html>");
+				// today
 				daysHolder[week][counter].setForeground(Color.BLUE);
 				counter++;
 				i++;
 				break;
 			} else {
-				System.out.println("error");
 				break;
 			}
 		}
 	}
-	
+
+	/**
+	 * Gets the events for a day
+	 * 
+	 * @param date
+	 */
 	public String getEvents(LocalDate date) {
 		String event = "";
 		for (Event e : events) {
@@ -270,6 +318,7 @@ public class MonthView extends JPanel implements CalendarView {
 
 	/**
 	 * If there is a change in date, this will update the date.
+	 * 
 	 * @param indicates that there is a change
 	 */
 	@Override
