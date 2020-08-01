@@ -229,7 +229,7 @@ public class WeekView extends JPanel implements CalendarView {
 	 * 
 	 * @param sunday      the starting date to start adding events
 	 * @param c           GridBagConstraints used to store events in a GridBagLayout
-	 * @param secondPanel
+	 * @param secondPanel name of the panel used to store the JComponents
 	 */
 	public void displayEvents(LocalDate sunday, GridBagConstraints c, JPanel secondPanel) {
 		startDate = LocalDate.of(sunday.getYear(), sunday.getMonthValue(), sunday.getDayOfMonth());

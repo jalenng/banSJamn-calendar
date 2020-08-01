@@ -60,7 +60,6 @@ public class DayView extends JPanel implements CalendarView {
 		JLabel dayName = new JLabel(now.getDayOfWeek().name().substring(0,3), SwingConstants.CENTER);
 		
 		JPanel dayPanel = new JPanel();	
-		//dayPanel.setPreferredSize(new Dimension(100,50));
 		dayPanel.setLayout(new GridLayout(4,1));
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
