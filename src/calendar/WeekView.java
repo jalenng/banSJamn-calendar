@@ -59,15 +59,16 @@ public class WeekView extends JPanel implements CalendarView{
 		// variables to get the month, day, year, and day of the week
 		String currentMonth = now.getMonth().name();
 		int day = now.getDayOfMonth();
+		LocalDate sunday = giveLocalDate();
 		int year = now.getYear();
 		
 		// creates the title
 		JLabel dayTitle = new JLabel();
-		if(monthCheck(day) == 1) {
+		if(monthCheck(sunday) == 1) {
 			dayTitle = new JLabel(currentMonth.substring(0,3) + " - " + now.plusMonths(1).getMonth().name().substring(0,3) + " " + year);
 		}
 		
-		else if(monthCheck(day) == -1) {
+		else if(monthCheck(sunday) == -1) {
 			dayTitle = new JLabel(now.minusMonths(1).getMonth().name().substring(0,3) + " - " + currentMonth.substring(0,3) + " " + year);
 		}
 
@@ -104,12 +105,12 @@ public class WeekView extends JPanel implements CalendarView{
 	 * Verifies if the current day will go over or under the length of the selected month
 	 * @param day The current day of the month
 	 * */
-	public int monthCheck(int day) {
-		if (day + 7 > now.lengthOfMonth()) {
+	public int monthCheck(LocalDate sunday) {
+		if (sunday.getDayOfMonth() + 7 > now.lengthOfMonth()) {
 			return 1;
 		}
 
-		if (day - 7 < 0) {
+		if (sunday.getDayOfMonth() - 7 < 0) {
 			return -1;
 		}
 		return 0;
