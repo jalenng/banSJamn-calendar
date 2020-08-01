@@ -16,7 +16,7 @@ import javax.swing.event.ChangeEvent;
  * DayView has a model, now, events, and startDate. DayView will update the right-hand side of the GUI
  * for the user to see the Day and events for the specific day.
  * @author Alein Bartolome
- * @version 1.6
+ * @version 1.7
  * @copyright banSJamn
  * */
 public class DayView extends JPanel implements CalendarView{
@@ -47,18 +47,13 @@ public class DayView extends JPanel implements CalendarView{
 		
 		now = model.getSelectedDate();
 		this.setLayout(new BorderLayout());
-		// variables to get the month, day, year, and day of the week
-		String currentMonth = now.getMonth().name();
-		String currentDay = now.getDayOfWeek().name();
-		int day = now.getDayOfMonth();
-		int year = now.getYear();
-		
+
 		// creates the title
-		JLabel dayTitle = new JLabel(currentMonth + " " + day + ", " + year);
+		JLabel dayTitle = new JLabel(now.getMonth().name() + " " + now.getDayOfMonth() + ", " + now.getYear());
 
 		
 		// day of the week label
-		JLabel dayName = new JLabel(currentDay.substring(0,3), SwingConstants.CENTER);
+		JLabel dayName = new JLabel(now.getDayOfWeek().name().substring(0,3), SwingConstants.CENTER);
 		
 		JPanel dayPanel = new JPanel();	
 		//dayPanel.setPreferredSize(new Dimension(100,50));
@@ -66,7 +61,7 @@ public class DayView extends JPanel implements CalendarView{
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		// current day label
-		JLabel dayNumber = new JLabel(Integer.toString(day), SwingConstants.CENTER);	
+		JLabel dayNumber = new JLabel(Integer.toString(now.getDayOfMonth()), SwingConstants.CENTER);	
 
 		// ADDED A PADDING FROM THE EDGES
 		setBorder(new EmptyBorder(10, 15, 10, 10));

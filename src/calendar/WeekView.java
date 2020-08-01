@@ -24,7 +24,7 @@ import javax.swing.event.ChangeEvent;
  * dependent on the selected date. Afterwards, it will load the events from 
  * the model's getEvents().
  * @author Alein Bartolome
- * @version 1.4
+ * @version 1.5
  * @copyright banSJamn
  * */
 public class WeekView extends JPanel implements CalendarView{
@@ -58,22 +58,22 @@ public class WeekView extends JPanel implements CalendarView{
 		
 		// variables to get the month, day, year, and day of the week
 		String currentMonth = now.getMonth().name();
-		int day = now.getDayOfMonth();
-		LocalDate sunday = giveLocalDate();
-		int year = now.getYear();
+		LocalDate sunday = giveSundayLocalDate(); 
 		
 		// creates the title
 		JLabel dayTitle = new JLabel();
-		if(monthCheck(sunday) == 1) {
-			dayTitle = new JLabel(currentMonth.substring(0,3) + " - " + now.plusMonths(1).getMonth().name().substring(0,3) + " " + year);
-		}
 		
-		else if(monthCheck(sunday) == -1) {
-			dayTitle = new JLabel(now.minusMonths(1).getMonth().name().substring(0,3) + " - " + currentMonth.substring(0,3) + " " + year);
+		// Prints the current month with the next month
+		if(monthCheck(sunday, now) == 1) {
+			dayTitle = new JLabel(currentMonth.substring(0,3) + " - " + now.plusMonths(1).getMonth().name().substring(0,3) + " " + now.plusMonths(1).getYear());
+		}
+		// Prints the previous month with current month
+		else if(monthCheck(sunday, now) == -1) {
+			dayTitle = new JLabel(now.minusMonths(1).getMonth().name().substring(0,3) + " - " + currentMonth.substring(0,3) + " " + now.getYear());
 		}
 
 		else {
-			dayTitle = new JLabel(currentMonth + " " + year);
+			dayTitle = new JLabel(currentMonth + " " + now.getYear());
 		}
 
 		JPanel firstPanel = new JPanel();
@@ -94,8 +94,8 @@ public class WeekView extends JPanel implements CalendarView{
 
 		c.gridx=0;
 		c.gridy=1;
-		displayDayView(secondPanel, c, giveLocalDate());
-		displayEvents(giveLocalDate(), c, secondPanel);
+		displayDayView(secondPanel, c, giveSundayLocalDate());
+		displayEvents(giveSundayLocalDate(), c, secondPanel);
 		this.add(secondPanel,BorderLayout.CENTER);
 		revalidate();
 		repaint();
@@ -105,13 +105,17 @@ public class WeekView extends JPanel implements CalendarView{
 	 * Verifies if the current day will go over or under the length of the selected month
 	 * @param day The current day of the month
 	 * */
-	public int monthCheck(LocalDate sunday) {
-		if (sunday.getDayOfMonth() + 7 > now.lengthOfMonth()) {
-			return 1;
-		}
-
-		if (sunday.getDayOfMonth() - 7 < 0) {
+	public int monthCheck(LocalDate sunday, LocalDate now) {
+		// if the day exceeds the length of the month and 
+		if(sunday.getMonthValue() < now.getMonthValue()) {
 			return -1;
+		}
+		if (sunday.getDayOfMonth() + 6 > sunday.lengthOfMonth()){
+			// if Sunday's year is less than the selected date's year
+			if(sunday.getYear() < now.getYear()) {
+				return -1;
+			}
+			return 1;
 		}
 		return 0;
 	}// end of monthCheck
@@ -121,7 +125,7 @@ public class WeekView extends JPanel implements CalendarView{
 	 * with the starting point set to Sunday
 	 * @return LocalDate representation of Sunday based on getSelectedDate().
 	 * */
-	public LocalDate giveLocalDate() {
+	public LocalDate giveSundayLocalDate() {
 		LocalDate today = model.getSelectedDate();
 		
 		switch(today.getDayOfWeek().ordinal()){
@@ -162,6 +166,7 @@ public class WeekView extends JPanel implements CalendarView{
 		}// end of switch case
 		return null;
 	}
+
 	
 	/**
 	 * Prints out the day buttons
@@ -244,15 +249,10 @@ public class WeekView extends JPanel implements CalendarView{
 			}
 			c.gridx = i;			
 			c.fill = GridBagConstraints.BOTH;
+			
 			JTextArea myTextArea = new JTextArea(eventDisplay);
-			
-			// ADDING LINE WRAP IS ANOTHER WAY TO DO IT, SO IMA LEAVE THIS
-			// HERE FOR EASY TESTING
-//			myTextArea.setLineWrap(true);
-//			myTextArea.setWrapStyleWord(true);
-			
-			// ADDED SCROLL TO THE EVENTS JTEXTFIELD
 			JScrollPane scroll = new JScrollPane(myTextArea);
+			
 			scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 			scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 			scroll.setPreferredSize(new Dimension(105, 300));
