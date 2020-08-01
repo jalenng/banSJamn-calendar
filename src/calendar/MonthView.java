@@ -72,7 +72,7 @@ public class MonthView extends JPanel implements CalendarView {
 		this.revalidate();
 		// Get today's date and month
 		LocalDate cal = model.getSelectedDate();
-		int today = cal.getDayOfMonth();
+		int today = LocalDate.now().getDayOfMonth();
 
 		// Creating the title and adding the left and right button for navigation
 		for (int i = 0; i < 7; i++) {
