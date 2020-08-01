@@ -7,6 +7,14 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 
+/**
+ * This class creates the smaller left side calendar with the
+ * clickable dates. Today is highlighted in blue.
+ * 
+ * @author aryanmaheshwari
+ * @version 7/31/20
+ * @copyright banSJamn
+ */
 public class SelectedMonthView extends JPanel implements CalendarView {
 
 	private LocalDate visibleDate;
@@ -28,7 +36,6 @@ public class SelectedMonthView extends JPanel implements CalendarView {
 	/**
 	 * Creates the calendar. The method takes in the number of months before or
 	 * after the current month and creates an updated calendar.
-	 * 
 	 */
 	public void display() {
 
@@ -140,6 +147,10 @@ public class SelectedMonthView extends JPanel implements CalendarView {
 		this.add(body, BorderLayout.CENTER);
 	}
 
+	/**
+	 * If there is a change in date, this will update the date.
+	 * @param indicates that there is a change
+	 */
 	public void stateChanged(ChangeEvent arg0) {
 		visibleDate = model.getSelectedDate();
 		this.display();
