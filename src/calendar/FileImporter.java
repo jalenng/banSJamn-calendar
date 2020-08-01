@@ -22,7 +22,7 @@ class FileImporter {
 	/**
 	 * Imports events to a model from a user-selected .txt file
 	 * 
-	 * @param m model to import events to
+	 * @param model to import events to
 	 * @return true if events from file were imported, false otherwise
 	 */
 	public static boolean importFile(CalendarModel model) {
@@ -48,7 +48,7 @@ class FileImporter {
 	 * Adds files to the CalendarModel model
 	 * 
 	 * @param file File with events
-	 * @param m    Calendar model to add events to
+	 * @param model Calendar model to add events to
 	 * @return true if file was successfully parsed and events were imported, false
 	 *         otherwise
 	 */
