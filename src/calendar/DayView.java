@@ -3,7 +3,6 @@ package calendar;
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
-import java.awt.Insets;
 import java.time.LocalDate;
 import java.util.TreeSet;
 import javax.swing.JLabel;
@@ -19,7 +18,7 @@ import javax.swing.event.ChangeEvent;
  * specific day.
  * 
  * @author Alein Bartolome
- * @version 7/31/20
+ * @version 8/1/20
  * @copyright banSJamn
  */
 public class DayView extends JPanel implements CalendarView {
@@ -53,17 +52,12 @@ public class DayView extends JPanel implements CalendarView {
 
 		now = model.getSelectedDate();
 		this.setLayout(new BorderLayout());
-		// variables to get the month, day, year, and day of the week
-		String currentMonth = now.getMonth().name();
-		String currentDay = now.getDayOfWeek().name();
-		int day = now.getDayOfMonth();
-		int year = now.getYear();
 
 		// creates the title
 		JLabel dayTitle = new JLabel(now.getMonth().name() + " " + now.getDayOfMonth() + ", " + now.getYear());
 
 		// day of the week label
-    JLabel dayName = new JLabel(now.getDayOfWeek().name().substring(0,3), SwingConstants.CENTER);
+		JLabel dayName = new JLabel(now.getDayOfWeek().name().substring(0,3), SwingConstants.CENTER);
 		
 		JPanel dayPanel = new JPanel();	
 		//dayPanel.setPreferredSize(new Dimension(100,50));
@@ -146,7 +140,7 @@ public class DayView extends JPanel implements CalendarView {
 	}
 
 	/**
-	 * Moves the selected date forwards by a day
+	 * Moves the selected date back by a day
 	 */
 	public void previous() {
 		model.advanceSelectedDateByDays(-1);

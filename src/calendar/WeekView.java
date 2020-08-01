@@ -4,13 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.time.LocalDate;
 import java.util.TreeSet;
 import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -26,7 +23,7 @@ import javax.swing.event.ChangeEvent;
  * model's getEvents().
  * 
  * @author Alein Bartolome
- * @version 7/31/20
+ * @version 8/1/20
  * @copyright banSJamn
  */
 public class WeekView extends JPanel implements CalendarView {
@@ -107,7 +104,7 @@ public class WeekView extends JPanel implements CalendarView {
 
 	/**
 	 * Verifies if the current day will go over or under the length of the selected
-	 * month
+	 * month and checks if the Sunday's year is less than the selected date's year
 	 * 
 	 * @param day The current day of the month
 	 * */
