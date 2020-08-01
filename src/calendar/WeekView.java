@@ -62,23 +62,22 @@ public class WeekView extends JPanel implements CalendarView {
 
 		// variables to get the month, day, year, and day of the week
 		String currentMonth = now.getMonth().name();
-		int day = now.getDayOfMonth();
-		int year = now.getYear();
-
+		LocalDate sunday = giveSundayLocalDate(); 
+		
 		// creates the title
 		JLabel dayTitle = new JLabel();
-		if (monthCheck(day) == 1) {
-			dayTitle = new JLabel(currentMonth.substring(0, 3) + " - "
-					+ now.plusMonths(1).getMonth().name().substring(0, 3) + " " + year);
+		
+		// Prints the current month with the next month
+		if(monthCheck(sunday, now) == 1) {
+			dayTitle = new JLabel(currentMonth.substring(0,3) + " - " + now.plusMonths(1).getMonth().name().substring(0,3) + " " + now.plusMonths(1).getYear());
 		}
-
-		else if (monthCheck(day) == -1) {
-			dayTitle = new JLabel(now.minusMonths(1).getMonth().name().substring(0, 3) + " - "
-					+ currentMonth.substring(0, 3) + " " + year);
+		// Prints the previous month with current month
+		else if(monthCheck(sunday, now) == -1) {
+			dayTitle = new JLabel(now.minusMonths(1).getMonth().name().substring(0,3) + " - " + currentMonth.substring(0,3) + " " + now.getYear());
 		}
 
 		else {
-			dayTitle = new JLabel(currentMonth + " " + year);
+			dayTitle = new JLabel(currentMonth + " " + now.getYear());
 		}
 
 		JPanel firstPanel = new JPanel();
@@ -97,11 +96,11 @@ public class WeekView extends JPanel implements CalendarView {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		this.add(firstPanel, BorderLayout.NORTH);
 
-		c.gridx = 0;
-		c.gridy = 1;
-		displayDayView(secondPanel, c, giveLocalDate());
-		displayEvents(giveLocalDate(), c, secondPanel);
-		this.add(secondPanel, BorderLayout.CENTER);
+		c.gridx=0;
+		c.gridy=1;
+		displayDayView(secondPanel, c, giveSundayLocalDate());
+		displayEvents(giveSundayLocalDate(), c, secondPanel);
+		this.add(secondPanel,BorderLayout.CENTER);
 		revalidate();
 		repaint();
 	}
@@ -111,15 +110,18 @@ public class WeekView extends JPanel implements CalendarView {
 	 * month
 	 * 
 	 * @param day The current day of the month
-	 * @return int to print specific JLabel
-	 */
-	public int monthCheck(int day) {
-		if (day + 7 > now.lengthOfMonth()) {
-			return 1;
-		}
-
-		if (day - 7 < 0) {
+	 * */
+	public int monthCheck(LocalDate sunday, LocalDate now) {
+		// if the day exceeds the length of the month and 
+		if(sunday.getMonthValue() < now.getMonthValue()) {
 			return -1;
+		}
+		if (sunday.getDayOfMonth() + 6 > sunday.lengthOfMonth()){
+			// if Sunday's year is less than the selected date's year
+			if(sunday.getYear() < now.getYear()) {
+				return -1;
+			}
+			return 1;
 		}
 		return 0;
 	}// end of monthCheck
@@ -129,8 +131,8 @@ public class WeekView extends JPanel implements CalendarView {
 	 * starting point set to Sunday
 	 * 
 	 * @return LocalDate representation of Sunday based on getSelectedDate().
-	 */
-	public LocalDate giveLocalDate() {
+	 * */
+	public LocalDate giveSundayLocalDate() {
 		LocalDate today = model.getSelectedDate();
 
 		switch (today.getDayOfWeek().ordinal()) {
@@ -261,9 +263,8 @@ public class WeekView extends JPanel implements CalendarView {
 
 			myTextArea.setLineWrap(true);
 			myTextArea.setWrapStyleWord(true);
-
-			// ADDED SCROLL TO THE EVENTS JTEXTFIELD
 			JScrollPane scroll = new JScrollPane(myTextArea);
+			
 			scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 			scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 			scroll.setPreferredSize(new Dimension(105, 300));

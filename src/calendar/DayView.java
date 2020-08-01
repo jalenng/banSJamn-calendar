@@ -60,18 +60,19 @@ public class DayView extends JPanel implements CalendarView {
 		int year = now.getYear();
 
 		// creates the title
-		JLabel dayTitle = new JLabel(currentMonth + " " + day + ", " + year);
+		JLabel dayTitle = new JLabel(now.getMonth().name() + " " + now.getDayOfMonth() + ", " + now.getYear());
 
 		// day of the week label
-		JLabel dayName = new JLabel(currentDay.substring(0, 3), SwingConstants.CENTER);
-
-		JPanel dayPanel = new JPanel();
-		// dayPanel.setPreferredSize(new Dimension(100,50));
-		dayPanel.setLayout(new GridLayout(4, 1));
+    JLabel dayName = new JLabel(now.getDayOfWeek().name().substring(0,3), SwingConstants.CENTER);
+		
+		JPanel dayPanel = new JPanel();	
+		//dayPanel.setPreferredSize(new Dimension(100,50));
+		dayPanel.setLayout(new GridLayout(4,1));
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		// current day label
-		JLabel dayNumber = new JLabel(Integer.toString(day), SwingConstants.CENTER);
+		JLabel dayNumber = new JLabel(Integer.toString(now.getDayOfMonth()), SwingConstants.CENTER);	
+
 
 		// ADDED A PADDING FROM THE EDGES
 		setBorder(new EmptyBorder(10, 15, 10, 10));
