@@ -16,7 +16,7 @@ import javax.swing.event.ChangeEvent;
  * DayView has a model, now, events, and startDate. DayView will update the right-hand side of the GUI
  * for the user to see the Day and events for the specific day.
  * @author Alein Bartolome
- * @version 1.5
+ * @version 1.6
  * @copyright banSJamn
  * */
 public class DayView extends JPanel implements CalendarView{
@@ -78,41 +78,24 @@ public class DayView extends JPanel implements CalendarView{
 		
 		c.gridx = 0;
 		c.gridy = 1;
-		// CHANGED TO STAY ON THE LEFT  
+
 		dayName.setHorizontalAlignment(JLabel.LEFT);
 		dayPanel.add(dayName, c);
 		
 		c.gridx = 0;
 		c.gridy = 2;
-		// CHANGED TO STAY ON THE LEFT
+
 		dayNumber.setHorizontalAlignment(JLabel.LEFT);
 		dayPanel.add(dayNumber, c);
 		
-		// DONT NEED C FOR BORDERLAYOUT
-//		c.gridx = 0;
-//		c.gridy = 0;
 		this.add(dayPanel, BorderLayout.NORTH);
 		
-		
-		// insert method to call for "events"
-		
-		// DONT NEED C FOR BORDERLAYOUT
-//		c.gridx = 0;
-//		c.gridy = 1;
-		
-		//CHANGED TO BORDERLAYOUT CENTER
 		this.add(displayEvents(), BorderLayout.CENTER);
 	}
 	
-	
-	// CHANGED THIS TO RETURN A JTEXTAREA BECAUSE THAT DISPLAYS MORE
-	// NICELY THAN ADDING A JPANEL TO THE MAIN PANEL
-	//
-	// REMEMBER TO UPDATE THE JAVADOC IF THIS CHANGE IS KEPT PLS
-	//
 	/**
 	 * Method stores all the events into a TreeSet and places the events into a label and returns a panel.
-	 * @return newPanel a panel with the events from getEvents()
+	 * @return eventsLabel a JTextArea with the events from getEvents()
 	 * */
 	public JTextArea displayEvents() {
 		startDate = LocalDate.of(now.getYear(), now.getMonthValue(), now.getDayOfMonth());
@@ -125,9 +108,6 @@ public class DayView extends JPanel implements CalendarView{
 		}
 		
 		String eventDisplay = "";
-		
-		// NO NEED FOR JPANEL 
-//		JPanel newPanel = new JPanel();
 
 		for(LocalDate day : dates) {
 			for(Event e : events) {
@@ -137,9 +117,7 @@ public class DayView extends JPanel implements CalendarView{
 			}
 		}// end of for loop
 		eventsLabel.setText(eventDisplay);
-		
-		// NO NEED FOR JPANEL
-//		newPanel.add(eventsLabel);
+
 		return eventsLabel;
 	}
 	
