@@ -67,6 +67,8 @@ public class SpaceTheme implements ThemeStrategy {
 
 	/**
 	 * Returns a string representation of the theme's name
+	 *
+	 * @return theme
 	 */
 	public String toString() {
 		return "Space Theme";
