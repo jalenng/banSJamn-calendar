@@ -268,6 +268,10 @@ public class MonthView extends JPanel implements CalendarView {
 		return event;
 	}
 
+	/**
+	 * If there is a change in date, this will update the date.
+	 * @param indicates that there is a change
+	 */
 	@Override
 	public void stateChanged(ChangeEvent arg0) {
 		this.display();

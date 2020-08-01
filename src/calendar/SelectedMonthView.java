@@ -11,7 +11,7 @@ import javax.swing.event.ChangeEvent;
  * This class creates the smaller left side calendar with the
  * clickable dates. Today is highlighted in blue.
  * 
- * @author aryanmaheshwari
+ * @author aryanmaheshwari, Jalen Ng
  * @version 7/31/20
  * @copyright banSJamn
  */
