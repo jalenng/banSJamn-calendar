@@ -78,7 +78,7 @@ public class CalendarModel {
 	 * 			go back in time.
 	 */
 	public void advanceSelectedDateByWeek(int i) {
-		selectedDate = selectedDate.plusWeeks(i).withDayOfMonth(1);
+		selectedDate = selectedDate.plusWeeks(i);
 		update();
 	}
 	
@@ -89,7 +89,7 @@ public class CalendarModel {
 	 * 			go back in time.
 	 */
 	public void advanceSelectedDateByMonth(int i) {
-		selectedDate = selectedDate.plusMonths(i);
+		selectedDate = selectedDate.plusMonths(i).withDayOfMonth(1);
 		update();
 	}
 	
