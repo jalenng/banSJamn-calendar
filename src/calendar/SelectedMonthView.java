@@ -149,7 +149,7 @@ public class SelectedMonthView extends JPanel implements CalendarView {
 	/**
 	 * If there is a change in date, this will update the date.
 	 * 
-	 * @param arg0 indicates that there is a change
+	 * @param arg0	the ChangeEvent
 	 */
 	public void stateChanged(ChangeEvent arg0) {
 		visibleDate = model.getSelectedDate();

@@ -75,7 +75,7 @@ public class Event implements Comparable<Event> {
 	}
 
 	/**
-	 * Gives the name
+	 * Returns the event name
 	 * 
 	 * @return name
 	 */
@@ -84,7 +84,7 @@ public class Event implements Comparable<Event> {
 	}
 
 	/**
-	 * Gives the date
+	 * Returns the event date
 	 * 
 	 * @return date
 	 */
@@ -109,7 +109,7 @@ public class Event implements Comparable<Event> {
 	}
 
 	/**
-	 * Gives the start date
+	 * Returns the start date
 	 * 
 	 * @return start date
 	 */
@@ -118,7 +118,7 @@ public class Event implements Comparable<Event> {
 	}
 
 	/**
-	 * Gives the end date
+	 * Returns the end date
 	 * 
 	 * @return end date
 	 */

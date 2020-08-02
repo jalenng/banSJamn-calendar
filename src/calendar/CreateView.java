@@ -26,9 +26,9 @@ class CreateView extends JPanel {
 	CalendarModel model;
 
 	/**
-	 * Creates the Create view
+	 * Constructor for a new CreateView
 	 * 
-	 * @param m
+	 * @param m	Calendar Model
 	 */
 	public CreateView(CalendarModel m) {
 		model = m;

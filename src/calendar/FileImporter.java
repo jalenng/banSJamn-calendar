@@ -20,7 +20,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 class FileImporter {
 
 	/**
-	 * Imports events to a model from a user-selected .txt file
+	 * Imports events from a user-selected .txt file to a model
 	 * 
 	 * @param model to import events to
 	 * @return true if events from file were imported, false otherwise

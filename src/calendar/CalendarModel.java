@@ -127,7 +127,7 @@ public class CalendarModel {
 	/**
 	 * Adds event to calendar if it does not conflict with existing events
 	 * 
-	 * @param e Event to add
+	 * @param e	Event to add
 	 * @return true if event was added, false if conflict detected
 	 */
 	public boolean addEvent(Event e) {
