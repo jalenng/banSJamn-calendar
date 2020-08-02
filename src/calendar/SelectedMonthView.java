@@ -22,11 +22,10 @@ public class SelectedMonthView extends JPanel implements CalendarView {
 	private CalendarModel model;
 
 	/**
-	 * Constructor which updates the value of n and calls the display method to
-	 * display the calendar.
+	 * Constructor which updates all the values and creates the
+	 * initial display.
 	 * 
-	 * @param n is the month you want to show (either before or after the current
-	 *          month)
+	 * @param m is the model
 	 */
 	public SelectedMonthView(CalendarModel m) {
 		this.model = m;
@@ -35,8 +34,8 @@ public class SelectedMonthView extends JPanel implements CalendarView {
 	}
 
 	/**
-	 * Creates the calendar. The method takes in the number of months before or
-	 * after the current month and creates an updated calendar.
+	 * Creates the calendar. It has its own buttons to 
+	 * navigate the different months. Each date is clickable.
 	 */
 	public void display() {
 
@@ -166,7 +165,7 @@ public class SelectedMonthView extends JPanel implements CalendarView {
 	}
 
 	/**
-	 * Moves the selected date forwards by a month
+	 * Moves the selected date back by a month
 	 */
 	public void previous() {
 		visibleDate = visibleDate.plusMonths(-1);
