@@ -5,7 +5,6 @@ import java.util.TreeSet;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
-import calendar.Event;
 
 /**
  * This class creates the month view. It presents all the events in the month.
