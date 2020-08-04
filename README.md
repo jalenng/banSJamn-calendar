@@ -1,2 +1,4 @@
 # banSJamn-calendar
-CS 151 Summer 2020 Project: Calendar
+SJSU CS 151 Summer 2020 Project: Calendar
+
+![Screenshot](https://i.imgur.com/EVGwmud.png)
