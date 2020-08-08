@@ -111,7 +111,7 @@ public class SpaceTheme implements ThemeStrategy {
 
 			int starCount = 0;
 			while (starCount < 20) {
-				double leftX = height + 10 + Math.random() * 900;
+				double leftX = height + 10 + Math.random() * (width - 10);
 				double centerY = height / 4 + Math.random() * height / 2;
 				double sizeH = 15 + Math.random() * 10;
 				double sizeV = 20 + Math.random() * 20;
@@ -196,7 +196,7 @@ public class SpaceTheme implements ThemeStrategy {
 
 			int starCount = 0;
 			while (starCount < 40) {
-				double leftX = Math.random() * 1000;
+				double leftX = Math.random() * (width - 10);
 				double centerY = height / 4 + Math.random() * height / 2;
 				double sizeH = 15 + Math.random() * 10;
 				double sizeV = 20 + Math.random() * 20;
